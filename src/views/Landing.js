@@ -2,6 +2,10 @@ import React from "react";
 
 import BandCard from "../components/bandCard";
 
+import {
+  Link
+} from 'react-router-dom'
+
 function Landing() {
 
   const listBand = [
@@ -71,12 +75,13 @@ function Landing() {
           </p>
           <div className="mt-5 max-w-md mx-auto sm:flex sm:justify-center md:mt-8">
             <div className="rounded-md shadow">
-              <a
-                href="#"
+            <Link to="/">
+              <span
                 className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10"
               >
                 Browse Performer
-              </a>
+              </span>
+              </Link>
             </div>
           </div>
         </div>
