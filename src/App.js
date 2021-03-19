@@ -8,6 +8,7 @@ import './App.css';
 
 import Navbar from './components/navbar';
 import Landing from './views/Landing'
+import Profile from './views/Profile'
 
 function App() {
   return (
@@ -16,6 +17,9 @@ function App() {
       <div className="bg-gray-50 pb-32">
         &nbsp;
         <Switch>
+            <Route path="/profile/:id">
+              <Profile />
+            </Route>
             <Route exact path="/">
               <Landing />
             </Route>
