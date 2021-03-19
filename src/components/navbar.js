@@ -26,16 +26,13 @@ function Navbar(){
                         <Link to="/">
                             <span className="text-base font-medium text-gray-500 hover:text-gray-300">Home</span>
                         </Link>
-                        <Link to="/">
+                        <Link to="/bands">
                             <span className="text-base font-medium text-gray-500 hover:text-gray-300">Band</span>
-                        </Link>
-                        <Link to="/">
-                            <span className="text-base font-medium text-gray-500 hover:text-gray-300">Soloist</span>
                         </Link>
                     </div>
                 </div>
                 <div className="hidden md:flex md:items-center md:space-x-6">
-                    <Link to="/">
+                    <Link to="/login">
                         <span className="text-base font-medium text-gray-500 hover:text-gray-300">
                         Log in
                         </span>
