@@ -64,8 +64,9 @@ function SignUp() {
                 required
                 class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"  
               >
-                <option>I'm want to perform</option>
-                <option>I'm want to hire performer</option>
+                <option selected disabled>I .....</option>
+                <option>I want to perform</option>
+                <option>I want to hire performer</option>
               </select>
             </div>
             <div>

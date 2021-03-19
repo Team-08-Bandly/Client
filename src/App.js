@@ -11,6 +11,7 @@ import Landing from './views/Landing'
 import Profile from './views/Profile'
 import Signin from './views/Signin'
 import Signup from './views/Signup'
+import Band from './views/Band'
 
 function App() {
   return (
@@ -22,6 +23,9 @@ function App() {
         <Switch>
             <Route path="/profile/:id">
               <Profile />
+            </Route>
+            <Route path="/bands">
+              <Band />
             </Route>
             <Route path="/login">
               <Signin />
