@@ -1,4 +1,11 @@
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect
+} from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 
 import './App.css'
 
@@ -10,6 +17,9 @@ import Signup from './views/Signup'
 import Band from './views/Band'
 
 function App () {
+  const loginStatus = useSelector(state => state.loginStatus.isLoggedIn)
+  const history = useHistory()
+
   return (
     <div className='min-h-screen bg-gray-50'>
       <Router>
@@ -23,12 +33,14 @@ function App () {
             <Route path='/bands'>
               <Band />
             </Route>
-            <Route path='/login'>
-              <Signin />
-            </Route>
-            <Route path='/register'>
-              <Signup />
-            </Route>
+            <Route
+              path='/login'
+              render={() => (loginStatus ? <Redirect to='/' /> : <Signin />)}
+            ></Route>
+            <Route
+              path='/register'
+              render={() => (loginStatus ? <Redirect to='/' /> : <Signup />)}
+            ></Route>
             <Route exact path='/'>
               <Landing />
             </Route>
