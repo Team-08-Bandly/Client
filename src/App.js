@@ -5,7 +5,6 @@ import {
   Redirect
 } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import { useHistory } from 'react-router-dom'
 
 import './App.css'
 
@@ -18,7 +17,6 @@ import Band from './views/Band'
 
 function App () {
   const loginStatus = useSelector(state => state.loginStatus.isLoggedIn)
-  const history = useHistory()
 
   return (
     <div className='min-h-screen bg-gray-50'>

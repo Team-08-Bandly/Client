@@ -1,10 +1,22 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import { setLoginFalse } from '../store/actions'
+import { useDispatch } from 'react-redux'
 
 function Navbar () {
   const loginStatus = useSelector(state => state.loginStatus.isLoggedIn)
-  console.log(loginStatus)
+  const dispatch = useDispatch()
+
+  function handleClick (e) {
+    if (loginStatus) {
+      e.preventDefault()
+      dispatch(setLoginFalse())
+    }
+  }
+
+  useEffect(() => {}, [loginStatus])
+
   return (
     <div className='bg-gray-50 pt-6'>
       <nav
@@ -65,7 +77,10 @@ function Navbar () {
               {loginStatus ? 'Profile' : 'Log in'}
             </span>
           </Link>
-          <Link to={loginStatus ? '/register' : '/logout'}>
+          <Link
+            to={loginStatus ? '/logout' : '/register'}
+            onClick={handleClick}
+          >
             <span className='inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700'>
               {loginStatus ? 'Logout' : 'Register'}
             </span>
