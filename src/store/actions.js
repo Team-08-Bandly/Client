@@ -66,9 +66,9 @@ export function fetchUser () {
       const access_token = localStorage.getItem('access_token')
       const res = await axios.get('/users', { headers: { access_token } })
       const { data } = res.data
-      dispatch(setAccountType(res.data.accountType))
-      dispatch(setAccountName(res.data.name))
-      dispatch(setAccountEmail(res.data.email))
+      dispatch(setAccountType(data.accountType))
+      dispatch(setAccountName(data.name))
+      dispatch(setAccountEmail(data.email))
     } catch (err) {
       console.log(err)
     }
