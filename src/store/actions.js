@@ -40,8 +40,18 @@ export function login (payload) {
   return async dispatch => {
     try {
       const res = await axios.post('/login', payload)
-      const { data } = res.data
-      dispatch(setLoginTrue(data))
+      dispatch(setLoginTrue(res.data.access_token))
+    } catch (err) {
+      console.log(err)
+    }
+  }
+}
+
+export function register (payload) {
+  console.log(payload)
+  return async dispatch => {
+    try {
+      await axios.post('/register', payload)
     } catch (err) {
       console.log(err)
     }
