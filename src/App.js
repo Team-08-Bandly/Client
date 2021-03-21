@@ -29,10 +29,10 @@ function App () {
             <Route path='/profile/:id'>
               <Profile />
             </Route>
-            <Route path="/Order">
+            <Route path='/order'>
               <Orderform />
             </Route>
-            <Route path="/bands">
+            <Route path='/bands'>
               <Band />
             </Route>
             <Route

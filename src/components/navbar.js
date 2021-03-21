@@ -3,9 +3,11 @@ import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { setLoginFalse } from '../store/actions'
 import { useDispatch } from 'react-redux'
+import { fetchUser } from '../store/actions'
 
 function Navbar () {
   const loginStatus = useSelector(state => state.loginStatus.isLoggedIn)
+  const { name, email, accountType } = useSelector(state => state.userData)
   const dispatch = useDispatch()
 
   function handleClick (e) {
@@ -15,8 +17,15 @@ function Navbar () {
     }
   }
 
+  useEffect(() => {
+    if (loginStatus) {
+      dispatch(fetchUser())
+    }
+  }, [dispatch, loginStatus])
+
   useEffect(() => {}, [loginStatus])
 
+  console.log(name, email, accountType)
   return (
     <div className='bg-gray-50 pt-6'>
       <nav
@@ -72,7 +81,7 @@ function Navbar () {
           </div>
         </div>
         <div className='hidden md:flex md:items-center md:space-x-6'>
-          <Link to={loginStatus ? '/profile' : 'login'}>
+          <Link to={loginStatus ? '/profile' : '/login'}>
             <span className='text-base font-medium text-gray-500 hover:text-gray-300'>
               {loginStatus ? 'Profile' : 'Log in'}
             </span>

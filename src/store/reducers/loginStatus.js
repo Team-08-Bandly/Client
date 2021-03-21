@@ -6,18 +6,21 @@ if (localStorage.getItem('access_token')) {
 }
 
 const initialState = {
-  isLoggedIn: initLoginStatus
+  isLoggedIn: initLoginStatus,
+  registerStatus: false
 }
 
 function reducer (state = initialState, action) {
   const { type, payload } = action
   switch (type) {
-    case 'ISLOGGEDIN/LOGIN':
-      localStorage.setItem('access_token', JSON.stringify(payload))
+    case 'LOGINSTATUS/LOGIN':
+      localStorage.setItem('access_token', payload)
       return { ...state, isLoggedIn: true }
-    case 'ISLOGGEDIN/LOGOUT':
+    case 'LOGINSTATUS/LOGOUT':
       localStorage.removeItem('access_token')
       return { ...state, isLoggedIn: false }
+    case 'LOGINSTATUS/REGISTER':
+      return { ...state, registerStatus: payload }
     default:
       return state
   }
