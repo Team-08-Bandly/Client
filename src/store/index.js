@@ -4,7 +4,6 @@ import userData from './reducers/userData'
 import bands from './reducers/bands'
 
 import thunk from 'redux-thunk'
-
 const mainReducer = combineReducers({
   loginStatus,
   bands,

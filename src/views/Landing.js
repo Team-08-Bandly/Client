@@ -8,6 +8,8 @@ import {
 
 function Landing() {
 
+
+
   const listBand = [
     {
       nama: "Nirvana",

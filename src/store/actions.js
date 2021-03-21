@@ -1,5 +1,5 @@
-import axios from '../config/axios'
 
+import axios from '../config/axios'
 export function setLoginTrue (payload) {
   return dispatch => {
     dispatch({ type: 'ISLOGGEDIN/LOGIN', payload })

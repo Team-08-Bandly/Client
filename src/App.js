@@ -14,6 +14,7 @@ import Profile from './views/Profile'
 import Signin from './views/Signin'
 import Signup from './views/Signup'
 import Band from './views/Band'
+import Orderform from './views/Orderform'
 
 function App () {
   const loginStatus = useSelector(state => state.loginStatus.isLoggedIn)
@@ -28,7 +29,10 @@ function App () {
             <Route path='/profile/:id'>
               <Profile />
             </Route>
-            <Route path='/bands'>
+            <Route path="/Order">
+              <Orderform />
+            </Route>
+            <Route path="/bands">
               <Band />
             </Route>
             <Route
