@@ -6,9 +6,9 @@ import SuccessForm from './SuccessForm';
 function Orderform(){
 
     let [successOrder, setSuccessOrder] = useState(false);
-
+    let snapApi = process.env.REACT_APP_APIURL || 'http://localhost:3001';
     function payButton(){
-        axios.get('http://localhost:3001/transactions/reqSnapToken').then( snapResponse => { 
+        axios.get(`${snapApi}/transactions/reqSnapToken`).then( snapResponse => { 
           window.snap.pay(snapResponse.data.snapToken,{
             onSuccess: function(result){
                 setSuccessOrder(true);
