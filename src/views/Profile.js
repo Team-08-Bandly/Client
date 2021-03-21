@@ -2,6 +2,10 @@ import React from "react";
 import Badge from "../components/badge";
 import PortoCard from "../components/portocard";
 
+import {
+  Link
+} from 'react-router-dom'
+
 function Profile() {
   const band = {
     nama: "Nirvana",
@@ -100,12 +104,12 @@ function Profile() {
                 }).format(band.rate)}
               </p>
 
-              <button
-                type="button"
+              <Link
+                to="/order"
                 class="w-full justify-center mt-4 inline-flex px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
                 Make an Appointment
-              </button>
+              </Link>
             </div>
           </div>
         </div>

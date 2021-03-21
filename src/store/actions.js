@@ -1,3 +1,7 @@
+import axios from 'axios';
+
+const baseUrl = 'http://localhost:3001';
+
 export function setLoginTrue (payload) {
   return dispatch => {
     dispatch({ type: 'ISLOGGEDIN/LOGIN', payload })
@@ -25,14 +29,10 @@ export function setAccountType (payload) {
 export function login (payload) {
   return async dispatch => {
     try {
-      const res = await fetch('http://localhost:3000/login', {
-        method: 'POST',
-        mode: 'cors',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(payload)
-      })
+      const res = await axios.post(`${baseUrl}login`, {
+        email : payload.email,
+        password: payload.password
+      });
       const data = await res.json()
       dispatch(setLoginTrue(data))
     } catch (err) {
