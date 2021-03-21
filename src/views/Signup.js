@@ -1,12 +1,17 @@
+import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { register } from '../store/actions'
 import { useHistory } from 'react-router-dom'
+import { setRegisterStatus } from '../store/actions'
 
 function SignUp () {
   const dispatch = useDispatch()
   const history = useHistory()
+  const registerStatus = useSelector(state => state.loginStatus.registerStatus)
+
+  console.log(registerStatus)
 
   const [formValue, setFormValue] = useState({
     name: '',
@@ -20,15 +25,21 @@ function SignUp () {
       ...formValue,
       [e.target.id]: e.target.value
     }
-    console.log(newForm)
     setFormValue(newForm)
   }
 
   function handleSignUp (e) {
     e.preventDefault()
     dispatch(register(formValue))
-    history.push('/login')
   }
+
+  useEffect(() => {
+    dispatch(setRegisterStatus(false))
+  }, [dispatch])
+
+  useEffect(() => {
+    if (registerStatus) history.push('/login')
+  }, [registerStatus, history])
 
   return (
     <div class='flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8'>

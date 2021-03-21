@@ -1,18 +1,22 @@
+import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { login } from '../store/actions'
 import { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 
 function Signin () {
   const dispatch = useDispatch()
   const history = useHistory()
   const [formValue, setFormValue] = useState({ email: '', password: '' })
+  const loginStatus = useSelector(state => state.loginStatus.isLoggedIn)
 
   function handleSignIn (e) {
     e.preventDefault()
     dispatch(login(formValue))
-    history.push('/')
+    if (loginStatus) {
+      history.push('/')
+    }
   }
 
   function handleChange (e) {
@@ -20,9 +24,10 @@ function Signin () {
       ...formValue,
       [e.target.id]: e.target.value
     }
-    console.log(newForm)
     setFormValue(newForm)
   }
+
+  useEffect(() => {}, [loginStatus])
 
   return (
     <div class='flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8'>
