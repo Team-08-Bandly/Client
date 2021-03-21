@@ -1,19 +1,41 @@
 import React, { useState } from 'react'
 
+import { useParams } from 'react-router-dom'
 import axios from 'axios'
 import SuccessForm from './SuccessForm'
 
 function Orderform () {
   let [successOrder, setSuccessOrder] = useState(false)
+  let [formValue, setFormValue] = useState({
+    name: '',
+    location: '',
+    date: '',
+    duration: 0
+  })
   let snapApi = process.env.REACT_APP_APIURL || 'http://localhost:3000'
+  let { id } = useParams()
   function payButton () {
-    axios.get(`${snapApi}/transactions/reqSnapToken`).then(snapResponse => {
-      window.snap.pay(snapResponse.data.snapToken, {
-        onSuccess: function (result) {
-          setSuccessOrder(true)
-        }
+    axios
+      .get(`${snapApi}/transactions/reqSnapToken`, {
+        params: { ...formValue, bandId: id },
+        headers: { access_token: localStorage.getItem('access_token') }
       })
-    })
+      .then(snapResponse => {
+        window.snap.pay(snapResponse.data.snapToken, {
+          onSuccess: function (result) {
+            setSuccessOrder(true)
+          }
+        })
+      })
+  }
+
+  function handleChange (e) {
+    const newForm = {
+      ...formValue,
+      [e.target.id]: e.target.value
+    }
+    console.log(newForm)
+    setFormValue(newForm)
   }
 
   if (successOrder) return <SuccessForm />
@@ -39,9 +61,10 @@ function Orderform () {
           <input
             type='text'
             name='first_name'
-            id='first_name'
+            id='name'
             autocomplete='given-name'
             class='mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+            onChange={handleChange}
           />
         </div>
         <div class='w-full mt-4'>
@@ -51,9 +74,10 @@ function Orderform () {
           <input
             type='date'
             name='tanggal'
-            id='tanggal'
+            id='date'
             autocomplete='tanggal'
             class='mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+            onChange={handleChange}
           />
         </div>
         <div class='w-full mt-4'>
@@ -63,9 +87,10 @@ function Orderform () {
           <textarea
             type='text'
             name='lokasi'
-            id='lokasi'
+            id='location'
             autocomplete='lokasi'
             class='mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+            onChange={handleChange}
           ></textarea>
         </div>
         <div class='w-full mt-4'>
@@ -76,9 +101,10 @@ function Orderform () {
             type='number'
             min={1}
             name='durasi'
-            id='durasi'
+            id='duration'
             autocomplete='durasi'
             class='mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+            onChange={handleChange}
           />
         </div>
         <div class='w-full mt-4'>
