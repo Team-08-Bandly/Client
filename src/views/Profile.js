@@ -96,6 +96,9 @@ function Profile () {
                 return <Badge key={genre?.id} text={genre?.name} />
               })}
               <p className='text-sm text-gray-800 mt-4'>
+                Location : {band?.location}
+              </p>
+              <p className='text-sm text-gray-800 mt-4'>
                 Rate :{' '}
                 {new Intl.NumberFormat('id-ID', {
                   style: 'currency',
@@ -105,7 +108,7 @@ function Profile () {
               </p>
 
               <Link
-                to={loginStatus ? '/order/1' : '/login'}
+                to={loginStatus ? `/order/${band?.id}` : '/login'}
                 className='w-full justify-center mt-4 inline-flex px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
               >
                 Make an Appointment
