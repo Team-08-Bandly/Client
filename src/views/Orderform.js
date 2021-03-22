@@ -16,7 +16,7 @@ function Orderform () {
   let { id } = useParams()
   function payButton () {
     axios
-      .get(`${snapApi}/transactions/reqSnapToken`, {
+      .get(`${snapApi}/transactions/${id}`, {
         params: { ...formValue, bandId: id },
         headers: { access_token: localStorage.getItem('access_token') }
       })
