@@ -1,8 +1,10 @@
 import axios from 'axios'
 
-const instance = ({ requiresAuth = true } = {}) => {
+const instance = ({ requiresAuth = true, contentType = 'application/json' } = {}) => {
   const options = {
-    headers: {}
+    headers: {
+      'Content-Type': contentType
+    }
   }
   options.baseURL = process.env.REACT_APP_APIURL || 'http://localhost:3000'
   if (requiresAuth) {
