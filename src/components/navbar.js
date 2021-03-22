@@ -11,7 +11,7 @@ function Navbar () {
   const { name, email, accountType } = useSelector(state => state.userData)
   const dispatch = useDispatch()
 
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(false)
 
   function handleClick (e) {
     if (loginStatus) {
@@ -28,10 +28,14 @@ function Navbar () {
 
   useEffect(() => {}, [loginStatus])
 
-  console.log(name, email, accountType)
   return (
     <div className='bg-gray-50 pt-6'>
-      <ModalPorto show={showModal} closeModal={ () => { setShowModal(false) }}/>
+      <ModalPorto
+        show={showModal}
+        closeModal={() => {
+          setShowModal(false)
+        }}
+      />
       <nav
         className='relative max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6'
         aria-label='Global'
@@ -86,13 +90,36 @@ function Navbar () {
         </div>
         <div className='hidden md:flex md:items-center md:space-x-6'>
           {loginStatus ? (
-            <span onClick={() => { setShowModal(true) }} className='text-base font-medium text-gray-500 hover:text-gray-300'>
-              Add Porto
-            </span>
-          ) : " "}
-          <Link to={loginStatus ? '/profile' : '/login'}>
+            accountType === 'band' ? (
+              <span
+                onClick={() => {
+                  setShowModal(true)
+                }}
+                className='text-base font-medium text-gray-500 hover:text-gray-300'
+              >
+                Add Porto
+              </span>
+            ) : (
+              ' '
+            )
+          ) : (
+            ' '
+          )}
+          <Link
+            to={
+              loginStatus
+                ? accountType === 'band'
+                  ? '/profile'
+                  : '/history'
+                : '/login'
+            }
+          >
             <span className='text-base font-medium text-gray-500 hover:text-gray-300'>
-              {loginStatus ? 'Profile' : 'Log in'}
+              {loginStatus
+                ? accountType === 'band'
+                  ? 'Profile'
+                  : 'Transaction History'
+                : 'Log in'}
             </span>
           </Link>
           <Link

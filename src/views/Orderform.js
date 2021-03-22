@@ -44,17 +44,17 @@ function Orderform () {
     <div className='flex container mx-auto justify-center items-center'>
       <div className='flex flex-col w-full lg:w-1/2 bg-white shadow rounded-lg px-4 py-4'>
         <div>
-          <h3 class='text-lg leading-6 font-medium text-gray-900'>
+          <h3 className='text-lg leading-6 font-medium text-gray-900'>
             Appointment Form
           </h3>
-          <p class='mt-1 max-w-2xl text-sm text-gray-500'>
+          <p className='mt-1 max-w-2xl text-sm text-gray-500'>
             Please fill detail about your appointment.
           </p>
         </div>
-        <div class='w-full mt-4'>
+        <div className='w-full mt-4'>
           <label
             for='first_name'
-            class='block text-sm font-medium text-gray-700'
+            className='block text-sm font-medium text-gray-700'
           >
             Customer Name
           </label>
@@ -63,12 +63,15 @@ function Orderform () {
             name='first_name'
             id='name'
             autocomplete='given-name'
-            class='mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+            className='mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
             onChange={handleChange}
           />
         </div>
-        <div class='w-full mt-4'>
-          <label for='tanggal' class='block text-sm font-medium text-gray-700'>
+        <div className='w-full mt-4'>
+          <label
+            for='tanggal'
+            className='block text-sm font-medium text-gray-700'
+          >
             Date
           </label>
           <input
@@ -76,12 +79,15 @@ function Orderform () {
             name='tanggal'
             id='date'
             autocomplete='tanggal'
-            class='mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+            className='mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
             onChange={handleChange}
           />
         </div>
-        <div class='w-full mt-4'>
-          <label for='lokasi' class='block text-sm font-medium text-gray-700'>
+        <div className='w-full mt-4'>
+          <label
+            for='lokasi'
+            className='block text-sm font-medium text-gray-700'
+          >
             Location
           </label>
           <textarea
@@ -89,12 +95,15 @@ function Orderform () {
             name='lokasi'
             id='location'
             autocomplete='lokasi'
-            class='mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+            className='mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
             onChange={handleChange}
           ></textarea>
         </div>
-        <div class='w-full mt-4'>
-          <label for='durasi' class='block text-sm font-medium text-gray-700'>
+        <div className='w-full mt-4'>
+          <label
+            for='durasi'
+            className='block text-sm font-medium text-gray-700'
+          >
             Duration ( in hour )
           </label>
           <input
@@ -103,15 +112,15 @@ function Orderform () {
             name='durasi'
             id='duration'
             autocomplete='durasi'
-            class='mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+            className='mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
             onChange={handleChange}
           />
         </div>
-        <div class='w-full mt-4'>
+        <div className='w-full mt-4'>
           <button
             onClick={payButton}
             type='button'
-            class='w-full justify-center inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
+            className='w-full justify-center inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
           >
             Submit
           </button>

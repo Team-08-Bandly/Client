@@ -11,8 +11,6 @@ function SignUp () {
   const history = useHistory()
   const registerStatus = useSelector(state => state.loginStatus.registerStatus)
 
-  console.log(registerStatus)
-
   const [formValue, setFormValue] = useState({
     name: '',
     email: '',

@@ -11,8 +11,6 @@ function Landing () {
   const bands = useSelector(state => state.bands.bands)
   const dispatch = useDispatch()
 
-  console.log(bands)
-
   useEffect(() => {
     dispatch(fetchBands())
   }, [dispatch])
@@ -46,8 +44,11 @@ function Landing () {
         <div class='mt-12 max-w-lg mx-auto grid gap-5 lg:grid-cols-3 lg:max-w-none'>
           {bands?.bands?.map(band => {
             return (
-              <div className='flex flex-col rounded-lg shadow-lg overflow-hidden'>
-                <BandCard key={band.id} data={band} />
+              <div
+                key={band.id}
+                className='flex flex-col rounded-lg shadow-lg overflow-hidden'
+              >
+                <BandCard data={band} />
               </div>
             )
           })}
