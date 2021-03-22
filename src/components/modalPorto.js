@@ -1,9 +1,25 @@
-import React, { useCallback, useMemo } from "react";
+import axios from "../config/axios";
+import React, { useCallback, useMemo, useState } from "react";
 import { useDropzone } from "react-dropzone";
+import Loader from "./loader";
+import { toast } from 'react-toastify'
+
+const configToastify = require('../config/toastify')
 
 function SuccessForm(props) {
+
+  const [isUploading,setIsUploading] = useState(false)
+
   const onDrop = useCallback((acceptedFiles) => {
     // Do something with the files
+    setIsUploading(true);
+    let form = new FormData();
+    form.append('file',acceptedFiles[0]);
+    axios({ contentType: 'multipart/form-data' }).post('/bands/portofolio',form).then(() => {
+      toast('Upload successfull', configToastify);
+      setIsUploading(false);
+      props.closeModal();
+    })
   }, []);
   const {
     getRootProps,
@@ -11,7 +27,7 @@ function SuccessForm(props) {
     isDragActive,
     isDragAccept,
     isDragReject,
-  } = useDropzone({ accept: "image/*" });
+  } = useDropzone({ onDrop });
 
   const baseStyle = {
     height: '100%',
@@ -57,6 +73,7 @@ function SuccessForm(props) {
         " fixed z-10 inset-0 overflow-y-auto"
       }
     >
+      {isUploading ? <Loader /> : ''}
       <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
         <div className="fixed inset-0 transition-opacity" aria-hidden="true">
           <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
