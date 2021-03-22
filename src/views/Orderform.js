@@ -38,7 +38,7 @@ function Orderform () {
     setFormValue(newForm)
   }
 
-  if (successOrder) return <SuccessForm />
+  if (successOrder) return <SuccessForm bandId={id} />
 
   return (
     <div className='flex container mx-auto justify-center items-center'>

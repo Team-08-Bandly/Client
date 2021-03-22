@@ -43,6 +43,12 @@ export function setAccountName (payload) {
   }
 }
 
+export function setBand (payload) {
+  return dispatch => {
+    dispatch({ type: 'BANDS/SETBAND', payload })
+  }
+}
+
 export function setAccountEmail (payload) {
   return dispatch => {
     dispatch({ type: 'USERDATA/SETEMAIL', payload })
@@ -82,7 +88,7 @@ export function fetchBands () {
   return async dispatch => {
     try {
       const res = await axios({ requiresAuth: false }).get('/bands')
-      const { data } = res.data
+      const { data } = res
       dispatch(setBands(data))
     } catch (err) {
       console.log(err)
@@ -104,6 +110,18 @@ export function fetchUser () {
       dispatch(setAccountEmail(data.email))
     } catch (err) {
       console.log(err, '<<<error fetchUser')
+    }
+  }
+}
+
+export function fetchBand (payload) {
+  return async dispatch => {
+    try {
+      const res = await axios().get(`/bands/${payload}`)
+      const { data } = res
+      dispatch(setBand(data))
+    } catch (err) {
+      console.log(err)
     }
   }
 }
