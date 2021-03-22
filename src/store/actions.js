@@ -3,15 +3,7 @@ import { toast } from 'react-toastify'
 
 import 'react-toastify/dist/ReactToastify.css'
 
-const config = {
-  position: 'top-right',
-  autoClose: 3500,
-  hideProgressBar: false,
-  closeOnClick: true,
-  pauseOnHover: false,
-  draggable: true,
-  progress: undefined
-}
+const config = require('../config/toastify')
 
 export function setLoginTrue (payload) {
   return dispatch => {

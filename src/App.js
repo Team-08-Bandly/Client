@@ -11,6 +11,7 @@ import './App.css'
 import Navbar from './components/navbar'
 import Landing from './views/Landing'
 import Profile from './views/Profile'
+import ProfileForm from './views/ProfileForm'
 import Signin from './views/Signin'
 import Signup from './views/Signup'
 import Band from './views/Band'
@@ -28,6 +29,9 @@ function App () {
           <Switch>
             <Route path='/profile/:id'>
               <Profile />
+            </Route>
+            <Route exact path='/profile/'>
+              <ProfileForm />
             </Route>
             <Route path='/order/:id'>
               <Orderform />
