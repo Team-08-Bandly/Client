@@ -104,7 +104,7 @@ export function fetchUser () {
         headers: { access_token: access_token }
       })
       const { data } = res
-      console.log(data)
+      // console.log(data)
       dispatch(setAccountType(data.accountType))
       dispatch(setAccountName(data.name))
       dispatch(setAccountEmail(data.email))

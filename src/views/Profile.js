@@ -12,21 +12,9 @@ function Profile () {
   const dispatch = useDispatch()
   const { id } = useParams()
 
-  console.log(band.Genres)
-
   useEffect(() => {
     dispatch(fetchBand(id))
   }, [dispatch, id])
-
-  // const band = {
-  //   nama: 'Nirvana',
-  //   genre: ['Grunge', 'Pop'],
-  //   jenis: 'Band',
-  //   deskripsi:
-  //     'Nirvana adalah nama sebuah grup band dari Kota Aberdeen, Washington, Amerika Serikat, kemudian akhirnya mereka mendapatkan kesuksesan di Kota Seattle, Amerika Serikat, yang terkenal dengan aliran musik grunge, atau yang dikenal juga dengan Seattle Sound',
-  //   rate: 1000000,
-  //   bannerUrl: 'https://www.nme.com/wp-content/uploads/2020/09/nirvanalogo.jpg'
-  // }
 
   const porto = [
     {
@@ -80,8 +68,12 @@ function Profile () {
   ]
   return (
     <div className='relative max-w-7xl mx-auto justify-between px-4 sm:px-6'>
-      <div className='flex w-full mb-4 rounded h-128'>
-        <img src={band?.coverUrl} className='object-cover rounded-lg' alt='' />
+      <div className='flex w-full mb-4 rounded justify-center h-100'>
+        <img
+          src={band?.coverUrl}
+          className='object-cover rounded-lg h-100 w-full'
+          alt=''
+        />
       </div>
       <div className='flex flex-wrap md:flex-nowrap'>
         <div className='flex items-start w-full md:w-1/3'>
@@ -104,15 +96,19 @@ function Profile () {
                 return <Badge key={genre?.id} text={genre?.name} />
               })}
               <p className='text-sm text-gray-800 mt-4'>
+                Location : {band?.location}
+              </p>
+              <p className='text-sm text-gray-800 mt-4'>
                 Rate :{' '}
                 {new Intl.NumberFormat('id-ID', {
                   style: 'currency',
                   currency: 'IDR'
-                }).format(band?.rate)}
+                }).format(band?.rate)}{' '}
+                / hour
               </p>
 
               <Link
-                to={loginStatus ? '/order/1' : '/login'}
+                to={loginStatus ? `/order/${band?.id}` : '/login'}
                 className='w-full justify-center mt-4 inline-flex px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
               >
                 Make an Appointment

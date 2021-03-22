@@ -64,7 +64,7 @@ function ProfileForm () {
 
   useEffect(() => {
     setProfileData({ ...profileData, genre: genres.map(genre => genre.value) })
-  }, [genres, profileData])
+  }, [genres])
 
   useEffect(() => {
     axios()
@@ -113,13 +113,13 @@ function ProfileForm () {
             }
             name='first_name'
             id='first_name'
-            autocomplete='given-name'
+            autoComplete='given-name'
             className='mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
           />
         </div>
         <div className='w-full mt-4'>
           <label
-            for='deskripsi'
+            htmlFor='deskripsi'
             className='block text-sm font-medium text-gray-700'
           >
             Overview
@@ -131,7 +131,7 @@ function ProfileForm () {
               setProfileData({ ...profileData, description: e.target.value })
             }
             id='deskripsi'
-            autocomplete='deskripsi'
+            autoComplete='deskripsi'
             className='mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
           ></textarea>
         </div>
@@ -150,7 +150,7 @@ function ProfileForm () {
             }
             name='lokasi'
             id='lokasi'
-            autocomplete='lokasi'
+            autoComplete='lokasi'
             className='mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
           ></textarea>
         </div>
@@ -167,7 +167,7 @@ function ProfileForm () {
             min={1}
             name='rate'
             id='rate'
-            autocomplete='rate'
+            autoComplete='rate'
             className='mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
           />
         </div>
@@ -198,7 +198,7 @@ function ProfileForm () {
             type='file'
             name='imageUrl'
             id='imageUrl'
-            autocomplete='imageUrl'
+            autoComplete='imageUrl'
             className='mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md px-4 py-2'
           />
         </div>
@@ -214,7 +214,7 @@ function ProfileForm () {
             type='file'
             name='coverUrl'
             id='coverUrl'
-            autocomplete='coverUrl'
+            autoComplete='coverUrl'
             className='mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md px-4 py-2'
           />
         </div>
