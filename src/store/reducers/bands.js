@@ -1,5 +1,6 @@
 const initialState = {
-  bands: []
+  bands: [],
+  band: {}
 }
 
 function reducer (state = initialState, action) {
@@ -7,6 +8,8 @@ function reducer (state = initialState, action) {
   switch (type) {
     case 'BANDS/SETBANDS':
       return { ...state, bands: payload }
+    case 'BANDS/SETBAND':
+      return { ...state, band: payload }
     default:
       return state
   }

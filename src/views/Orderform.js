@@ -16,7 +16,7 @@ function Orderform () {
   let { id } = useParams()
   function payButton () {
     axios
-      .get(`${snapApi}/transactions/reqSnapToken`, {
+      .get(`${snapApi}/transactions/`, {
         params: { ...formValue, bandId: id },
         headers: { access_token: localStorage.getItem('access_token') }
       })
@@ -38,7 +38,7 @@ function Orderform () {
     setFormValue(newForm)
   }
 
-  if (successOrder) return <SuccessForm />
+  if (successOrder) return <SuccessForm bandId={id} />
 
   return (
     <div className='flex container mx-auto justify-center items-center'>
