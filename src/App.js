@@ -15,6 +15,7 @@ import Signin from './views/Signin'
 import Signup from './views/Signup'
 import Band from './views/Band'
 import Orderform from './views/Orderform'
+import History from './views/History'
 
 function App () {
   const loginStatus = useSelector(state => state.loginStatus.isLoggedIn)
@@ -46,6 +47,9 @@ function App () {
               path='/register'
               render={() => (loginStatus ? <Redirect to='/' /> : <Signup />)}
             ></Route>
+            <Route path='/history'>
+              <History />
+            </Route>
             <Route exact path='/'>
               <Landing />
             </Route>
