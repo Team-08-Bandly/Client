@@ -42,7 +42,7 @@ function Orderform () {
           console.log(err)
         })
     }
-  }, [accountType])
+  }, [accountType, userBandId, id, history])
 
   function payButton () {
     axios
