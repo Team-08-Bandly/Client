@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { setLoginFalse } from '../store/actions'
 import { useDispatch } from 'react-redux'
@@ -10,7 +10,7 @@ function Navbar () {
   const loginStatus = useSelector(state => state.loginStatus.isLoggedIn)
   const { name, email, accountType } = useSelector(state => state.userData)
   const dispatch = useDispatch()
-
+  const history = useHistory()
   const [showModal, setShowModal] = useState(false)
 
   function handleClick (e) {

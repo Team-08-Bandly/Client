@@ -6,7 +6,6 @@ import {
 } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
-
 import Navbar from './components/navbar'
 import Landing from './views/Landing'
 import Profile from './views/Profile'
@@ -47,9 +46,10 @@ function App () {
               path='/register'
               render={() => (loginStatus ? <Redirect to='/' /> : <Signup />)}
             ></Route>
-            <Route path='/history'>
-              <History />
-            </Route>
+            <Route
+              path='/history'
+              render={() => (loginStatus ? <History /> : <Redirect to='/' />)}
+            />
             <Route exact path='/'>
               <Landing />
             </Route>

@@ -7,8 +7,13 @@ const config = require('../config/toastify')
 
 export function setLoginTrue (payload) {
   return dispatch => {
-    console.log(payload)
     dispatch({ type: 'LOGINSTATUS/LOGIN', payload })
+  }
+}
+
+export function setUserTransaction (payload) {
+  return dispatch => {
+    dispatch({ type: 'USERDATA/SETTRANSACTIONS', payload })
   }
 }
 
@@ -119,6 +124,31 @@ export function fetchBand (payload) {
       const res = await axios().get(`/bands/${payload}`)
       const { data } = res
       dispatch(setBand(data))
+    } catch (err) {
+      console.log(err)
+    }
+  }
+}
+
+export function fetchUserTransaction () {
+  return async dispatch => {
+    try {
+      const res = await axios().get('/transactions/user')
+      const { data } = res
+      dispatch(setUserTransaction(data))
+    } catch (err) {
+      console.log(err)
+    }
+  }
+}
+
+export function setStatusOrder (payload) {
+  return async dispatch => {
+    try {
+      await axios().put('/transactions/', {
+        status: 'success',
+        snapToken: payload
+      })
     } catch (err) {
       console.log(err)
     }
