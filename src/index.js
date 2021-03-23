@@ -12,7 +12,7 @@ import { ToastContainer } from 'react-toastify'
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <ToastContainer />
+      <ToastContainer style={{ zIndex: 999 }} />
       <App />
     </Provider>
   </React.StrictMode>,
