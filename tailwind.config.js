@@ -5,12 +5,14 @@ module.exports = {
     extend: {},
   },
   variants: {
+    display: ['dropdown','responsive'],
     extend: {},
   },
   plugins: [
     require('@tailwindcss/line-clamp'),
     require('@tailwindcss/forms'),
     require('@tailwindcss/typography'),
-    require('@tailwindcss/aspect-ratio')
+    require('@tailwindcss/aspect-ratio'),
+    require('tailwindcss-dropdown')
   ],
 }
