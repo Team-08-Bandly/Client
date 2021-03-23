@@ -15,9 +15,13 @@ import Signup from './views/Signup'
 import Band from './views/Band'
 import Orderform from './views/Orderform'
 import History from './views/History'
+import { toast } from 'react-toastify'
+
+import config from './config/toastify'
 
 function App () {
   const loginStatus = useSelector(state => state.loginStatus.isLoggedIn)
+  const accountType = useSelector(state => state.userData.accountType)
 
   return (
     <div className='min-h-screen bg-gray-50'>
@@ -29,12 +33,29 @@ function App () {
             <Route path='/profile/:id'>
               <Profile />
             </Route>
-            <Route exact path='/profile/'>
-              <ProfileForm />
-            </Route>
-            <Route path='/order/:id'>
-              <Orderform />
-            </Route>
+            <Route
+              exact
+              path='/profile/'
+              render={() =>
+                loginStatus && accountType === 'band' ? (
+                  <ProfileForm />
+                ) : (
+                  <Redirect
+                    to='/'
+                    render={toast(
+                      'You need to have band account to enter',
+                      config
+                    )}
+                  />
+                )
+              }
+            />
+            <Route
+              path='/order/:id'
+              render={() =>
+                loginStatus ? <Orderform /> : <Redirect to='/login' />
+              }
+            />
             <Route path='/bands'>
               <Band />
             </Route>

@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import { setLoginFalse } from '../store/actions'
+import {
+  setLoginFalse,
+  setAccountName,
+  setAccountEmail,
+  setAccountType
+} from '../store/actions'
 import { useDispatch } from 'react-redux'
 import { fetchUser } from '../store/actions'
 import ModalPorto from './modalPorto'
@@ -22,6 +27,9 @@ function Navbar () {
     if (loginStatus) {
       e.preventDefault()
       dispatch(setLoginFalse())
+      dispatch(setAccountName(''))
+      dispatch(setAccountEmail(''))
+      dispatch(setAccountType(''))
     }
   }
 
@@ -102,11 +110,37 @@ function Navbar () {
         <div className='hidden md:flex md:items-center md:space-x-6'>
           {loginStatus ? (
             accountType === 'band' ? (
-              <button class="relative dropdown:block" onClick={ () => setShowDropdown(!showDropdown) } style={{ zIndex: 9999 }} role="navigation" aria-haspopup="true">
-                Products
-                <ul class={ ( showDropdown ? 'block' : 'hidden' ) + ' absolute bg-white rounded-lg shadow px-2 py-2 top-6 left-0 w-64 text-left'} aria-label="submenu">
-                  <li className="mt-2" onClick={ () => { setShowModal(true) } }><span >Upload From File</span></li>
-                  <li className="mt-2"  onClick={ () => { setShowModalLink(true) } }><span>Add From Youtube</span></li>
+              <button
+                className='relative dropdown:block'
+                onClick={() => setShowDropdown(!showDropdown)}
+                style={{ zIndex: 100 }}
+                role='navigation'
+                aria-haspopup='true'
+              >
+                Portofolio
+                <ul
+                  class={
+                    (showDropdown ? 'block' : 'hidden') +
+                    ' absolute bg-white rounded-lg shadow px-2 py-2 top-6 left-0 w-64 text-left'
+                  }
+                  aria-label='submenu'
+                >
+                  <li
+                    className='mt-2'
+                    onClick={() => {
+                      setShowModal(true)
+                    }}
+                  >
+                    <span>Upload From File</span>
+                  </li>
+                  <li
+                    className='mt-2'
+                    onClick={() => {
+                      setShowModalLink(true)
+                    }}
+                  >
+                    <span>Add From Youtube</span>
+                  </li>
                 </ul>
               </button>
             ) : (

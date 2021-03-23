@@ -50,6 +50,9 @@ function ProfileForm () {
         .then(() => {
           setIsLoading(false)
         })
+        .catch(err => {
+          toast.error(err.response.data.message, configToastify)
+        })
     } else {
       axios({ contentType: 'multipart/form-data' })
         .post('/bands', form)
@@ -58,6 +61,9 @@ function ProfileForm () {
         })
         .then(() => {
           setIsLoading(false)
+        })
+        .catch(err => {
+          toast.error(err.response.data.message, configToastify)
         })
     }
   }

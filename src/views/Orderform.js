@@ -1,8 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
-import { useParams } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom'
 import axios from 'axios'
+import axiosAuth from '../config/axios'
 import SuccessForm from './SuccessForm'
+import { useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
+import config from '../config/toastify'
 
 function Orderform () {
   let [successOrder, setSuccessOrder] = useState(false)
@@ -15,6 +19,30 @@ function Orderform () {
   let [snapToken, setSnapToken] = useState('')
   let snapApi = process.env.REACT_APP_APIURL || 'http://localhost:3000'
   let { id } = useParams()
+  const [userBandId, setUserBandId] = useState()
+  const { accountType } = useSelector(state => state.userData)
+  const history = useHistory()
+
+  useEffect(() => {
+    if (accountType === 'band') {
+      axiosAuth()
+        .get('/bands/myProfile')
+        .then(({ data }) => {
+          if (data.band) {
+            const bandId = data.band.id
+            setUserBandId(bandId)
+            console.log(bandId, id)
+            if (userBandId === +id) {
+              toast('Cannot make an appointment', config)
+              history.push('/bands')
+            }
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    }
+  }, [accountType])
 
   function payButton () {
     axios
