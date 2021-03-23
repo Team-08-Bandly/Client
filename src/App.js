@@ -6,7 +6,6 @@ import {
 } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
-import './App.css'
 
 import Navbar from './components/navbar'
 import Landing from './views/Landing'

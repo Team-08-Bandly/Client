@@ -1,59 +1,27 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Badge from '../components/badge'
 import PortoCard from '../components/portocard'
 import { useSelector, useDispatch } from 'react-redux'
 import { fetchBand } from '../store/actions'
 
 import { Link, useParams } from 'react-router-dom'
+import Loader from '../components/loader'
 
 function Profile () {
   const loginStatus = useSelector(state => state.loginStatus.isLoggedIn)
   const band = useSelector(state => state.bands.band)
   const dispatch = useDispatch()
   const { id } = useParams()
+  const [ isLoading, setIsLoading ] = useState(true);
 
   useEffect(() => {
     dispatch(fetchBand(id))
   }, [dispatch, id])
 
-  const porto = [
-    {
-      PortofolioType: 'image',
-      fileUrl: 'https://www.nme.com/wp-content/uploads/2020/09/nirvanalogo.jpg'
-    },
-    {
-      PortofolioType: 'image',
-      fileUrl: 'https://www.nme.com/wp-content/uploads/2020/09/nirvanalogo.jpg'
-    },
-    {
-      PortofolioType: 'image',
-      fileUrl: 'https://www.nme.com/wp-content/uploads/2020/09/nirvanalogo.jpg'
-    },
-    {
-      PortofolioType: 'image',
-      fileUrl: 'https://www.nme.com/wp-content/uploads/2020/09/nirvanalogo.jpg'
-    },
-    {
-      PortofolioType: 'image',
-      fileUrl: 'https://www.nme.com/wp-content/uploads/2020/09/nirvanalogo.jpg'
-    },
-    {
-      PortofolioType: 'image',
-      fileUrl: 'https://www.nme.com/wp-content/uploads/2020/09/nirvanalogo.jpg'
-    },
-    {
-      PortofolioType: 'image',
-      fileUrl: 'https://www.nme.com/wp-content/uploads/2020/09/nirvanalogo.jpg'
-    },
-    {
-      PortofolioType: 'image',
-      fileUrl: 'https://www.nme.com/wp-content/uploads/2020/09/nirvanalogo.jpg'
-    },
-    {
-      PortofolioType: 'image',
-      fileUrl: 'https://www.nme.com/wp-content/uploads/2020/09/nirvanalogo.jpg'
-    }
-  ]
+  useEffect(() => {
+    setIsLoading(false);
+    console.log(band)
+  },[band])
 
   const reviews = [
     {
@@ -66,6 +34,10 @@ function Profile () {
       id: 2
     }
   ]
+
+  if(isLoading)
+    return <Loader/>
+
   return (
     <div className='relative max-w-7xl mx-auto justify-between px-4 sm:px-6'>
       <div className='flex w-full mb-4 rounded justify-center h-100'>
@@ -116,14 +88,15 @@ function Profile () {
             </div>
           </div>
         </div>
-        <div className='flex items-start flex-wrap mt-4 md:mt-0 w-full md:w-2/3 md:ml-4 justify-center mx-auto'>
-          {porto.map(portofolio => {
+        <div className='flex items-start flex-wrap mt-4 md:mt-0 w-full md:w-2/3 md:ml-4 mx-auto'>
+          {band && band?.Portofolios && band?.Portofolios.map(portofolio => {
             return (
               <div className='md:w-1/3 w-full px-0 md:px-1 mb-4 rounded-lg shadow-lg overflow-hidden'>
-                <PortoCard />
+                <PortoCard portofolio={portofolio}/>
               </div>
             )
           })}
+          <div className="flex w-full"></div>
           <div className='relative'>
             <div
               className='absolute inset-0 flex items-center'
