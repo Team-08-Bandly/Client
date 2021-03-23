@@ -1,8 +1,13 @@
+import { useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { setStatusOrder } from '../store/actions'
 
 function SuccessForm (props) {
   const history = useHistory()
-  const { bandId } = props
+  const dispatch = useDispatch()
+  const { bandId, snapToken } = props
+  console.log(props)
 
   function goHome () {
     history.push('/')
@@ -11,6 +16,10 @@ function SuccessForm (props) {
   function returnProfile () {
     history.push(`/profile/${bandId}`)
   }
+
+  useEffect(() => {
+    dispatch(setStatusOrder(snapToken))
+  }, [])
 
   return (
     <div className='fixed z-10 inset-0 overflow-y-auto'>

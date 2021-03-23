@@ -1,7 +1,8 @@
 const initialState = {
   name: '',
   email: '',
-  accountType: ''
+  accountType: '',
+  transactions: []
 }
 
 function reducer (state = initialState, action) {
@@ -13,6 +14,8 @@ function reducer (state = initialState, action) {
       return { ...state, name: payload }
     case 'USERDATA/SETEMAIL':
       return { ...state, email: payload }
+    case 'USERDATA/SETTRANSACTIONS':
+      return { ...state, transactions: payload }
     default:
       return state
   }
