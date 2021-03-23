@@ -5,6 +5,7 @@ import { setLoginFalse } from '../store/actions'
 import { useDispatch } from 'react-redux'
 import { fetchUser } from '../store/actions'
 import ModalPorto from './modalPorto'
+import ModalPortoLink from './modalPortoLink'
 
 function Navbar () {
   const loginStatus = useSelector(state => state.loginStatus.isLoggedIn)
@@ -12,6 +13,10 @@ function Navbar () {
   const dispatch = useDispatch()
 
   const [showModal, setShowModal] = useState(false)
+
+  const [showModalLink, setShowModalLink] = useState(false)
+
+  const [showDropdown, setShowDropdown] = useState(false)
 
   function handleClick (e) {
     if (loginStatus) {
@@ -34,6 +39,12 @@ function Navbar () {
         show={showModal}
         closeModal={() => {
           setShowModal(false)
+        }}
+      />
+      <ModalPortoLink
+        show={showModalLink}
+        closeModal={() => {
+          setShowModalLink(false)
         }}
       />
       <nav
@@ -91,14 +102,13 @@ function Navbar () {
         <div className='hidden md:flex md:items-center md:space-x-6'>
           {loginStatus ? (
             accountType === 'band' ? (
-              <span
-                onClick={() => {
-                  setShowModal(true)
-                }}
-                className='text-base font-medium text-gray-500 hover:text-gray-300'
-              >
-                Add Porto
-              </span>
+              <button class="relative dropdown:block" onClick={ () => setShowDropdown(!showDropdown) } style={{ zIndex: 9999 }} role="navigation" aria-haspopup="true">
+                Products
+                <ul class={ ( showDropdown ? 'block' : 'hidden' ) + ' absolute bg-white rounded-lg shadow px-2 py-2 top-6 left-0 w-64 text-left'} aria-label="submenu">
+                  <li className="mt-2" onClick={ () => { setShowModal(true) } }><span >Upload From File</span></li>
+                  <li className="mt-2"  onClick={ () => { setShowModalLink(true) } }><span>Add From Youtube</span></li>
+                </ul>
+              </button>
             ) : (
               ' '
             )
