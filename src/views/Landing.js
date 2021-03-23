@@ -15,6 +15,8 @@ function Landing () {
     dispatch(fetchBands())
   }, [dispatch])
 
+  let randomBands = bands?.bands?.sort(() => 0.5 - Math.random()).slice(0, 6)
+
   return (
     <div className='relative overflow-hidden pb-8'>
       <main className='mt-16 mx-auto max-w-7xl px-4 sm:mt-24'>
@@ -41,7 +43,7 @@ function Landing () {
       </main>
       <div className='mx-auto container mt-32'>
         <div class='mt-12 max-w-lg mx-auto grid gap-5 lg:grid-cols-3 lg:max-w-none'>
-          {bands?.bands?.map(band => {
+          {randomBands?.map(band => {
             return (
               <div
                 key={band.id}
@@ -52,6 +54,12 @@ function Landing () {
             )
           })}
         </div>
+      </div>
+      <div className='text-center'>
+        <br />
+        <h2 className='text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl'>
+          And many more...
+        </h2>
       </div>
     </div>
   )

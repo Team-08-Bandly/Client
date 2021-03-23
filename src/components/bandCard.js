@@ -25,6 +25,7 @@ function BandCard ({ data }) {
           <Link to={`/profile/${data?.id}`} className='block mt-2'>
             <p className='text-xl font-semibold text-gray-900'>{data?.name}</p>
           </Link>
+          <p className='mt-3 text-base text-gray-500'>{data?.location}</p>
           <p className='mt-3 text-base text-gray-500'>{data?.description}</p>
         </div>
       </div>
