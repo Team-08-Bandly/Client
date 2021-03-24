@@ -3,6 +3,7 @@ import axios from '../config/axios';
 import Moment from 'react-moment';
 import Chat from './Chat';
 import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom'
 
 function Chatlist() {
 
@@ -10,7 +11,9 @@ function Chatlist() {
 
     const [ listChat, setListChat ] = useState([]);
 
-    const [ roomId, setRoomId ] = useState('');
+    const { RoomId } = useParams();
+
+    const [ roomId, setRoomId ] = useState( RoomId || '' );
 
     useEffect(() => {
         axios().get('/chatRoom').then(({ data }) => {

@@ -88,7 +88,7 @@ function App () {
             </Route>
             
             <Route path='/chatroom/:RoomId'>
-              <Chat />
+              <ChatList />
             </Route>
             <Route exact path='/chatroom'>
               <ChatList />
