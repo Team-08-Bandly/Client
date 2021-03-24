@@ -108,6 +108,13 @@ function Navbar () {
           </div>
         </div>
         <div className='hidden md:flex md:items-center md:space-x-6'>
+          <Link
+              to={loginStatus ? '/chatroom' : ''}
+            >
+              <span className='text-base font-medium text-gray-500 hover:text-gray-300'>
+                {loginStatus ? 'Messages' : ''}
+              </span>
+            </Link>
           {loginStatus ? (
             accountType === 'band' ? (
               <button

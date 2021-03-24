@@ -4,8 +4,10 @@ import { useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import axios from "../config/axios";
 import Moment from 'moment';
+import Loader from '../components/loader'
 
 export default function Chat(props) {
+  const [ isLoading, setIsLoading ] = useState(false);
   const [chat, setChat] = useState("");
   const [chats, setChats] = useState([]);
   const { RoomId } = props;
@@ -14,13 +16,16 @@ export default function Chat(props) {
 
   useEffect(() => {
     if(RoomId != ''){
+      setIsLoading(true);
       Firebase.database()
       .ref(RoomId)
       .on("value", (snapshot) => {
         setChats(snapshot.val().chats);
+        setIsLoading(false)
       });
     }
   }, []);
+
 
   const sendChat = (e) => {
     e.preventDefault();
@@ -52,6 +57,7 @@ export default function Chat(props) {
       aria-labelledby="message-heading"
       className="min-w-0 flex-1 h-full flex flex-col overflow-hidden xl:order-last"
     >
+      {isLoading ? <Loader /> : ''}
       <div className="min-h-0 flex-1 overflow-y-auto">
         <ul className="py-4 space-y-2 sm:px-6 sm:space-y-4 lg:px-8">
           {chats.map( (chat) => {
