@@ -1,61 +1,88 @@
-import { useState, useEffect } from 'react'
-import { Firebase } from '../initFirebase'
-import { useSelector } from 'react-redux'
-import { useHistory, useParams } from 'react-router-dom'
-import Moment from 'moment'
-import axios from '../config/axios'
+import { useState, useEffect } from "react";
+import { Firebase } from "../initFirebase";
+import { useSelector } from "react-redux";
+import { useHistory, useParams } from "react-router-dom";
+import axios from "../config/axios";
+import Moment from 'moment';
 
-export default function Chat() {
-  const [chat, setChat] = useState('')
-  const [chats, setChats] = useState([])
-  const { RoomId } = useParams()
-  const { accountType } = useSelector(state => state.userData)
-  const band = useSelector(state => state.bands.band)
+export default function Chat(props) {
+  const [chat, setChat] = useState("");
+  const [chats, setChats] = useState([]);
+  const { RoomId } = props;
+  const { accountType } = useSelector((state) => state.userData);
+  const band = useSelector((state) => state.bands.band);
 
   useEffect(() => {
-    Firebase.database().ref(RoomId).on('value', snapshot => {
-      setChats(snapshot.val().chats)
-    })
-  }, [])
+    if(RoomId != ''){
+      Firebase.database()
+      .ref(RoomId)
+      .on("value", (snapshot) => {
+        setChats(snapshot.val().chats);
+      });
+    }
+  }, []);
 
   const sendChat = (e) => {
-    e.preventDefault()
-    const newChats = Firebase.database().ref(RoomId)
-    newChats.get()
-      .then(snapshot => {
-        let temp = snapshot.val()
-        temp.chats.push({ chat, date: Moment(new Date()).format('DD/MM/YYYY HH:mm:ss'), accountType })
-        newChats.set(temp)
-        setChat('')
+    e.preventDefault();
+    const newChats = Firebase.database().ref(RoomId);
+    newChats
+      .get()
+      .then((snapshot) => {
+        let temp = snapshot.val();
+        temp.chats.push({
+          chat,
+          date: Moment(new Date()).format("DD/MM/YYYY HH:mm:ss"),
+          accountType,
+        });
+        newChats.set(temp);
+        setChat("");
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
-      })
+      });
     // console.log(newChats);
+  };
+
+  if(RoomId === ''){
+    return <div></div>
   }
 
   return (
-    <main>
-      <form className="ml-20" onSubmit={sendChat}>
-        <h1>Chat</h1>
-        <textarea className="border-2 border-gray-400 w-2/5" type="text" value={chat} onChange={(e) => setChat(e.target.value)} /><br />
-        <button type="submit">Send</button>
-      </form>
-      <div>
-        <ul>
-          {
-            chats.map(chat => (
-              chat.accountType === accountType ? <li className='flex justify-evenly border-2 border-gray-300 m-3 p-2 mx-16'>
-                <h4 className="text-md font-semibold">{chat.chat}</h4>
-                <p className="text-md text-gray-600">{chat.date}</p>
-              </li> : <li className='flex justify-evenly border-2 border-gray-300 m-3 p-2 mx-16'>
-                <p className="text-md text-gray-600">{chat.date}</p>
-                <h4 className="text-md font-semibold">{chat.chat}</h4>
+    <section
+      aria-labelledby="message-heading"
+      className="min-w-0 flex-1 h-full flex flex-col overflow-hidden xl:order-last"
+    >
+      <div className="min-h-0 flex-1 overflow-y-auto">
+        <ul className="py-4 space-y-2 sm:px-6 sm:space-y-4 lg:px-8">
+          {chats.map( (chat) => {
+            return (
+              <li className={ ( chat.accountType === accountType ? 'justify-end' : '') + " w-full flex"}>
+              <div className={ ( chat.accountType === accountType ? 'bg-indigo-500 text-white' : 'bg-white') +" px-4 w-1/2 py-6 shadow sm:rounded-lg sm:px-6"}>
+                <div className="sm:flex sm:justify-between sm:items-baseline">
+                  <h3 className="text-base font-medium">
+                    <span className="">&nbsp;</span>
+                  </h3>
+                  <p className="mt-1 text-sm whitespace-nowrap sm:mt-0 sm:ml-3">
+                    <time datetime={chat.date}>
+                      { chat.date }
+                    </time>
+                  </p>
+                </div>
+                <div className="mt-4 space-y-6 text-sm">
+                  <p>{ chat.chat }</p>
+                </div>
+              </div>
               </li>
-            ))
-          }
+            )
+          } )}
         </ul>
       </div>
-    </main>
-  )
+      <div className="flex">
+        <textarea className="py-3 px-4 block w-3/4 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 resize-none" value={chat} onChange={(e) => setChat(e.target.value)} ></textarea>
+        <button className="w-1/4 text-white bg-indigo-600 px-3 py-2" onClick={sendChat}>
+          Send
+        </button>
+      </div>
+    </section>
+  );
 }
