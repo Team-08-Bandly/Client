@@ -1,10 +1,12 @@
+import { useEffect } from 'react'
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Redirect
 } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { fetchUser } from './store/actions'
 
 import Navbar from './components/navbar'
 import Landing from './views/Landing'
@@ -15,15 +17,21 @@ import Signup from './views/Signup'
 import Band from './views/Band'
 import Orderform from './views/Orderform'
 import History from './views/History'
+import MyProfile from './views/myProfile'
 import Chat from './views/Chat'
 import ChatList from './views/ChatList'
 import { toast } from 'react-toastify'
 
 import config from './config/toastify'
 
-function App() {
+function App () {
   const loginStatus = useSelector(state => state.loginStatus.isLoggedIn)
   const accountType = useSelector(state => state.userData.accountType)
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(fetchUser())
+  }, [dispatch])
 
   return (
     <div className='min-h-screen bg-gray-50'>
@@ -41,6 +49,23 @@ function App() {
               render={() =>
                 loginStatus && accountType === 'band' ? (
                   <ProfileForm />
+                ) : (
+                  <Redirect
+                    to='/'
+                    render={toast(
+                      'You need to have band account to enter',
+                      config
+                    )}
+                  />
+                )
+              }
+            />
+            <Route
+              exact
+              path='/myprofile/'
+              render={() =>
+                loginStatus && accountType === 'band' ? (
+                  <MyProfile />
                 ) : (
                   <Redirect
                     to='/'

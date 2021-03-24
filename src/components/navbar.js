@@ -12,9 +12,11 @@ import { fetchUser } from '../store/actions'
 import ModalPorto from './modalPorto'
 import ModalPortoLink from './modalPortoLink'
 
+import logo from '../bandly.png'
+
 function Navbar () {
   const loginStatus = useSelector(state => state.loginStatus.isLoggedIn)
-  const { name, email, accountType } = useSelector(state => state.userData)
+  const { accountType } = useSelector(state => state.userData)
   const dispatch = useDispatch()
   const history = useHistory()
   const [showModal, setShowModal] = useState(false)
@@ -32,6 +34,10 @@ function Navbar () {
       dispatch(setAccountType(''))
     }
   }
+
+  useEffect(() => {
+    dispatch(fetchUser())
+  }, [dispatch])
 
   useEffect(() => {
     if (loginStatus) {
@@ -63,11 +69,7 @@ function Navbar () {
           <div className='flex items-center justify-between w-full md:w-auto'>
             <Link to='/'>
               <span className='sr-only'>Workflow</span>
-              <img
-                className='h-8 w-auto sm:h-10'
-                src='https://tailwindui.com/img/logos/workflow-mark-teal-200-cyan-400.svg'
-                alt=''
-              />
+              <img className='h-6 w-auto' src={logo} alt='logo' />
             </Link>
             <div className='-mr-2 flex items-center md:hidden'>
               <button
@@ -153,6 +155,15 @@ function Navbar () {
             ) : (
               ' '
             )
+          ) : (
+            ' '
+          )}
+          {accountType === 'band' ? (
+            <Link to='/myprofile'>
+              <span className='text-base font-medium text-gray-500 hover:text-gray-300'>
+                My Profile
+              </span>
+            </Link>
           ) : (
             ' '
           )}

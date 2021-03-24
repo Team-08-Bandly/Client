@@ -1,19 +1,38 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchUserTransaction } from '../store/actions'
+import ModalRating from '../components/modalRating'
 
 function History () {
   const { transactions } = useSelector(state => state.userData)
   const dispatch = useDispatch()
+  const [showModal, setShowModal] = useState(false)
+  const [activeRating, setActiveRating] = useState('')
+  const [activeReview, setActiveReview] = useState('')
+  const [activeId, setActiveId] = useState('')
+
+  function handleClick (e, transaction) {
+    e.preventDefault()
+    // console.log(transaction, '<<<handleClick')
+    setActiveRating(transaction.rating)
+    setActiveReview(transaction.review)
+    setActiveId(transaction.id)
+    setShowModal(true)
+  }
 
   useEffect(() => {
     dispatch(fetchUserTransaction())
   }, [dispatch])
 
-  console.log(transactions)
-
   return (
     <>
+      <ModalRating
+        show={showModal}
+        rating={activeRating}
+        review={activeReview}
+        closeModal={() => setShowModal(false)}
+        transactionId={activeId}
+      />
       <div className='relative max-w-7xl mx-auto justify-between px-4 sm:px-6'>
         <div>
           <h3 className='text-lg leading-6 font-medium text-gray-900'>
@@ -70,39 +89,43 @@ function History () {
                 </thead>
                 <tbody>
                   {transactions?.Transactions?.map(transaction => (
-                    <tr className='bg-white' key={transaction.id}>
-                      <td className='px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900'>
-                        {transaction?.Band?.name}
-                      </td>
-                      <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-500'>
-                        {transaction?.date.split('T')[0]}
-                      </td>
-                      <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-500'>
-                        {transaction?.address}
-                      </td>
-                      <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-500'>
-                        {transaction?.duration} hour(s)
-                      </td>
-                      <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-500'>
-                        {new Intl.NumberFormat('id-ID', {
-                          style: 'currency',
-                          currency: 'IDR'
-                        }).format(
-                          transaction?.duration * transaction?.Band?.rate
-                        )}
-                      </td>
-                      <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-500'>
-                        {transaction?.status}
-                      </td>
-                      <td className='px-6 py-4 whitespace-nowrap text-right text-sm font-medium'>
-                        <a
-                          href='#'
-                          className='text-indigo-600 hover:text-indigo-900'
-                        >
-                          Rate this band
-                        </a>
-                      </td>
-                    </tr>
+                    <>
+                      {console.log(transaction)}
+                      <tr className='bg-white' key={transaction?.id}>
+                        <td className='px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900'>
+                          {transaction?.Band?.name}
+                        </td>
+                        <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-500'>
+                          {transaction?.date.split('T')[0]}
+                        </td>
+                        <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-500'>
+                          {transaction?.address}
+                        </td>
+                        <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-500'>
+                          {transaction?.duration} hour(s)
+                        </td>
+                        <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-500'>
+                          {new Intl.NumberFormat('id-ID', {
+                            style: 'currency',
+                            currency: 'IDR'
+                          }).format(
+                            transaction?.duration * transaction?.Band?.rate
+                          )}
+                        </td>
+                        <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-500'>
+                          {transaction?.status}
+                        </td>
+                        <td className='px-6 py-4 whitespace-nowrap text-right text-sm font-medium'>
+                          <a
+                            href='/rate'
+                            className='text-indigo-600 hover:text-indigo-900'
+                            onClick={e => handleClick(e, transaction)}
+                          >
+                            Rate this band
+                          </a>
+                        </td>
+                      </tr>
+                    </>
                   ))}
                 </tbody>
               </table>

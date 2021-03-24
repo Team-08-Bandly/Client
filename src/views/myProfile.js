@@ -4,34 +4,28 @@ import PortoCard from '../components/portocard'
 import { useSelector, useDispatch } from 'react-redux'
 import { fetchBand } from '../store/actions'
 import axios from '../config/axios'
-import { Firebase } from '../initFirebase'
-import Moment from 'moment'
-import { Link, useParams, useHistory } from 'react-router-dom'
 import ReactStars from 'react-stars'
+import { Link, useHistory } from 'react-router-dom'
 import Loader from '../components/loader'
 
-function Profile () {
+function MyProfile () {
   const loginStatus = useSelector(state => state.loginStatus.isLoggedIn)
   const band = useSelector(state => state.bands.band)
   const { accountType } = useSelector(state => state.userData)
   const dispatch = useDispatch()
-  const { id } = useParams()
   const [isLoading, setIsLoading] = useState(true)
   const [showType, setShowType] = useState('video')
   const [userBandId, setUserBandId] = useState()
   const history = useHistory()
-  const [ reviews, setReviews ] = useState([]);
 
-  useEffect(() => {
-    dispatch(fetchBand(id))
-  }, [dispatch, id])
+  // useEffect(() => {
+  //   dispatch(fetchBand(userBandId))
+  // }, [dispatch, userBandId])
 
   useEffect(() => {
     setIsLoading(false)
-    setReviews(band && band.Transactions && band.Transactions.filter(transaction => transaction.rating !== 0 ));
+    // console.log(band)
   }, [band])
-
-  console.log(band.Transactions)
 
   useEffect(() => {
     if (accountType === 'band') {
@@ -41,6 +35,9 @@ function Profile () {
           if (data.band) {
             const { id } = data.band
             setUserBandId(id)
+            dispatch(fetchBand(userBandId))
+          } else {
+            history.push('/profile')
           }
         })
         .catch(err => {
@@ -59,35 +56,6 @@ function Profile () {
     }
   }
 
-  const chat = e => {
-    e.preventDefault()
-    axios()
-      .get(`/chatRoom/${band.id}`)
-      .then(({ data }) => {
-        if (!data.status) {
-          const newMessage = Firebase.database()
-            .ref()
-            .push()
-          newMessage.set({
-            chats: [
-              {
-                chat: 'Hello i wanna ask something about your band',
-                date: Moment(new Date()).format('DD/MM/YYYY HH:mm:ss'),
-                accountType
-              }
-            ]
-          })
-          axios().post('/chatRoom', { BandId: band.id, RoomId: newMessage.key })
-          history.push(`/chatroom/${newMessage.key}`)
-        } else {
-          history.push(`/chatroom/${data.RoomId}`)
-        }
-      })
-      .catch(err => {
-        console.log(err)
-      })
-  }
-
   function Videos () {
     if (band && band.Portofolios) {
       let portofolioVideo = band?.Portofolios.filter(
@@ -98,7 +66,7 @@ function Profile () {
       if (portofolioVideo.length > 0) {
         return portofolioVideo.map(portofolio => {
           return (
-            <div className='md:w-1/3 w-full px-0 md:px-1 mb-4 rounded-lg cursor-pointer shadow-lg overflow-hidden'>
+            <div className='md:w-1/3 w-full px-0 md:px-1 mb-4 rounded-lg shadow-lg overflow-hidden'>
               <PortoCard portofolio={portofolio} />
             </div>
           )
@@ -187,7 +155,7 @@ function Profile () {
                   alt=''
                 />
               </div>
-              <div className='text-lg leading-6 font-medium mt-8 mb-4 flex'>
+              <div className='text-lg leading-6 font-medium mt-8 mb-4'>
                 <h3>{band?.name}</h3>
               </div>
               <dd className='mt-1 text-md text-gray-900 sm:mt-0 sm:col-span-2 leading-7 mb-4'>
@@ -208,17 +176,13 @@ function Profile () {
                 / hour
               </p>
 
-              {userBandId !== band?.id ? (
-                <div>
-                  <Link
-                    to={loginStatus ? '/order/' + band?.id : '/login'}
-                    className='w-full justify-center mt-4 inline-flex px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
-                  >
-                    Make an Appointment
-                  </Link>
-                <button className="w-full justify-center mt-4 inline-flex px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" onClick={chat}>Chat Me!</button>
-
-                </div>
+              {accountType !== 'band' ? (
+                <Link
+                  to={loginStatus ? '/order/' + band?.id : '/login'}
+                  className='w-full justify-center mt-4 inline-flex px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
+                >
+                  Make an Appointment
+                </Link>
               ) : (
                 ' '
               )}
@@ -238,7 +202,7 @@ function Profile () {
                       (showType === 'video'
                         ? 'text-indigo-600'
                         : 'text-gray-500') +
-                      ' border-transparent cursor-pointer hover:text-indigo-700 hover:border-indigio-300 w-1/3 py-4 px-1 text-center border-b-2 font-medium text-sm'
+                      ' border-transparent hover:text-indigo-700 hover:border-indigio-300 w-1/3 py-4 px-1 text-center border-b-2 font-medium text-sm'
                     }
                   >
                     Video
@@ -251,7 +215,7 @@ function Profile () {
                       (showType === 'audio'
                         ? 'text-indigo-600'
                         : 'text-gray-500') +
-                      ' border-transparent cursor-pointer hover:text-indigo-700 hover:border-indigio-300 w-1/3 py-4 px-1 text-center border-b-2 font-medium text-sm'
+                      ' border-transparent hover:text-indigo-700 hover:border-indigio-300 w-1/3 py-4 px-1 text-center border-b-2 font-medium text-sm'
                     }
                   >
                     Audio
@@ -264,7 +228,7 @@ function Profile () {
                       (showType === 'youtube'
                         ? 'text-indigo-600'
                         : 'text-gray-500') +
-                      ' border-transparent cursor-pointer hover:text-indigo-700 hover:border-indigio-300 w-1/3 py-4 px-1 text-center border-b-2 font-medium text-sm'
+                      ' border-transparent hover:text-indigo-700 hover:border-indigio-300 w-1/3 py-4 px-1 text-center border-b-2 font-medium text-sm'
                     }
                     aria-current='page'
                   >
@@ -285,35 +249,35 @@ function Profile () {
             </div>
             <div className='relative flex justify-center'>
               <span className='px-3 bg-gray-50 text-lg font-medium text-gray-900'>
-                Review & Rating ( { ( reviews && reviews.length > 0 ) ? reviews.reduce((total,value) => total + value.rating, 0) / reviews.length : 0 } / 5 )
+                Review & Rating
               </span>
             </div>
           </div>
           <div className='bg-white shadow rounded-lg mt-1 w-full'>
             <div className='px-4 py-4'>
               <ul className='divide-y divide-gray-200'>
-                {reviews && reviews.length > 0 ? reviews.map(review => {
-                  return (
-                    <li className='py-4'>
-                      <div className='flex w-full'>
-                        <div>
-                          <h4 className='text-lg font-bold'>
-                            <ReactStars
-                              count={5}
-                              size={24}
-                              value={review.rating}
-                              edit={false}
-                              color2='#ffd700' />
-                          </h4>
-                          <p className='mt-1'>
-                          {review.review}
-                          </p>
+                {band && band.Transactions && band.Transactions.length > 0 ? (
+                  band?.Transactions.map(review => {
+                    return (
+                      <li className='py-4'>
+                        <div className='flex w-full'>
+                          <div>
+                            <h4 className='text-lg font-bold'>
+                              <ReactStars
+                                count={5}
+                                size={24}
+                                value={review.rating}
+                                edit={false}
+                                color2='#ffd700'
+                              />
+                            </h4>
+                            <p className='mt-1'>{review.review}</p>
+                          </div>
                         </div>
-                        </div>
-                    </li>
+                      </li>
                     )
                   })
-                : (
+                ) : (
                   <li className='py-2'>
                     <div className='flex'>
                       <div>
@@ -331,4 +295,4 @@ function Profile () {
   )
 }
 
-export default Profile
+export default MyProfile

@@ -5,15 +5,20 @@ import BandCard from '../components/bandCard'
 import { Link } from 'react-router-dom'
 
 import { useSelector, useDispatch } from 'react-redux'
-import { fetchBands } from '../store/actions'
+import { fetchBands, fetchUser } from '../store/actions'
 
 function Landing () {
   const bands = useSelector(state => state.bands.bands)
   const dispatch = useDispatch()
+  const { accountType } = useSelector(state => state.userData)
+  const loginStatus = useSelector(state => state.loginStatus.isLoggedIn)
 
   useEffect(() => {
     dispatch(fetchBands())
-  }, [dispatch])
+    if (loginStatus) {
+      dispatch(fetchUser())
+    }
+  }, [dispatch, loginStatus])
 
   let randomBands = bands?.bands?.sort(() => 0.5 - Math.random()).slice(0, 6)
 
@@ -22,17 +27,21 @@ function Landing () {
       <main className='mt-16 mx-auto max-w-7xl px-4 sm:mt-24'>
         <div className='text-center'>
           <h1 className='text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl'>
-            <span className='block xl:inline'>You deserve</span>
+            <span className='block xl:inline'>
+              {accountType === 'client' ? 'You deserve' : "Let's improve"}
+            </span>
             <span className='block text-indigo-600 xl:inline'>
-              &nbsp;the best
+              {accountType === 'client' ? ' the best' : ' your band'}
             </span>
           </h1>
           <p className='mt-3 max-w-md mx-auto text-base text-gray-500 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl'>
-            Find The Perfect Performer For Your Best Event
+            {accountType === 'client'
+              ? 'Find The Perfect Performer For Your Best Event'
+              : 'Take inspiration from another performer'}
           </p>
           <div className='mt-5 max-w-md mx-auto sm:flex sm:justify-center md:mt-8'>
             <div className='rounded-md shadow'>
-              <Link to='/'>
+              <Link to='/bands'>
                 <span className='w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10'>
                   Browse Performer
                 </span>
