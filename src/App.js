@@ -16,6 +16,7 @@ import Band from './views/Band'
 import Orderform from './views/Orderform'
 import History from './views/History'
 import Chat from './views/Chat'
+import ChatList from './views/ChatList'
 import { toast } from 'react-toastify'
 
 import config from './config/toastify'
@@ -60,8 +61,12 @@ function App() {
             <Route path='/bands'>
               <Band />
             </Route>
+            
             <Route path='/chatroom/:RoomId'>
               <Chat />
+            </Route>
+            <Route exact path='/chatroom'>
+              <ChatList />
             </Route>
             <Route
               path='/login'
