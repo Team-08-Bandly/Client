@@ -4,13 +4,13 @@ import { reviewRating } from '../store/actions'
 import { useDispatch } from 'react-redux'
 
 function ModalRating (props) {
-  console.log(props)
+  // console.log(props)
   const [formValue, setFormValue] = useState({
     rating: 0,
     review: ''
   })
   const dispatch = useDispatch()
-  console.log(props.rating, props.review)
+  // console.log(props.rating, props.review)
 
   const ratingChanged = newRating => {
     setFormValue({
@@ -35,6 +35,7 @@ function ModalRating (props) {
 
   useEffect(() => {
     setFormValue({ ...formValue, review: props.review, rating: props.rating })
+    // console.log(formValue)
   }, [])
 
   return (
