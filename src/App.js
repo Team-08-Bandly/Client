@@ -15,11 +15,12 @@ import Signup from './views/Signup'
 import Band from './views/Band'
 import Orderform from './views/Orderform'
 import History from './views/History'
+import Chat from './views/Chat'
 import { toast } from 'react-toastify'
 
 import config from './config/toastify'
 
-function App () {
+function App() {
   const loginStatus = useSelector(state => state.loginStatus.isLoggedIn)
   const accountType = useSelector(state => state.userData.accountType)
 
@@ -58,6 +59,9 @@ function App () {
             />
             <Route path='/bands'>
               <Band />
+            </Route>
+            <Route path='/chatroom/:RoomId'>
+              <Chat />
             </Route>
             <Route
               path='/login'

@@ -4,11 +4,13 @@ import PortoCard from '../components/portocard'
 import { useSelector, useDispatch } from 'react-redux'
 import { fetchBand } from '../store/actions'
 import axios from '../config/axios'
+import { Firebase } from '../initFirebase'
+import Moment from 'moment'
+import { Link, useParams, useHistory } from 'react-router-dom'
 import ReactStars from 'react-stars'
-import { Link, useParams } from 'react-router-dom'
 import Loader from '../components/loader'
 
-function Profile () {
+function Profile() {
   const loginStatus = useSelector(state => state.loginStatus.isLoggedIn)
   const band = useSelector(state => state.bands.band)
   const { accountType } = useSelector(state => state.userData)
@@ -17,6 +19,7 @@ function Profile () {
   const [isLoading, setIsLoading] = useState(true)
   const [showType, setShowType] = useState('video')
   const [userBandId, setUserBandId] = useState()
+  const history = useHistory()
 
   useEffect(() => {
     dispatch(fetchBand(id))
@@ -43,7 +46,7 @@ function Profile () {
     }
   }, [accountType, userBandId])
 
-  function RenderPorto () {
+  function RenderPorto() {
     if (showType === 'video') {
       return <Videos />
     } else if (showType === 'audio') {
@@ -53,7 +56,27 @@ function Profile () {
     }
   }
 
-  function Videos () {
+  const chat = (e) => {
+    e.preventDefault()
+    axios().get(`/chatRoom/${band.id}`)
+      .then(({ data }) => {
+        if (!data.status) {
+          const newMessage = Firebase.database().ref().push()
+          newMessage.set({
+            chats: [{ chat: 'Hello i wanna ask something about your band', date: Moment(new Date()).format('DD/MM/YYYY HH:mm:ss'), accountType }],
+          })
+          axios().post('/chatRoom', { BandId: band.id, RoomId: newMessage.key })
+          history.push(`/chatroom/${newMessage.key}`)
+        } else {
+          history.push(`/chatroom/${data.RoomId}`)
+        }
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
+
+  function Videos() {
     if (band && band.Portofolios) {
       let portofolioVideo = band?.Portofolios.filter(
         portofolio =>
@@ -73,7 +96,7 @@ function Profile () {
     return <div></div>
   }
 
-  function Audios () {
+  function Audios() {
     if (band && band.Portofolios) {
       let portofolioAudio = band?.Portofolios.filter(
         portofolio => portofolio.portofolioType === 'audio'
@@ -99,7 +122,7 @@ function Profile () {
     return <div></div>
   }
 
-  function Youtube () {
+  function Youtube() {
     if (band && band.Portofolios) {
       let portofolioVideo = band?.Portofolios.filter(
         portofolio =>
@@ -152,8 +175,9 @@ function Profile () {
                   alt=''
                 />
               </div>
-              <div className='text-lg leading-6 font-medium mt-8 mb-4'>
+              <div className='text-lg leading-6 font-medium mt-8 mb-4 flex'>
                 <h3>{band?.name}</h3>
+                <button onClick={chat}>Chat Me!</button>
               </div>
               <dd className='mt-1 text-md text-gray-900 sm:mt-0 sm:col-span-2 leading-7 mb-4'>
                 <p>{band?.description}</p>
