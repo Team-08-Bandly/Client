@@ -253,7 +253,7 @@ function Profile () {
           <div className='bg-white shadow rounded-lg mt-1 w-full'>
             <div className='px-4 py-4'>
               <ul className='divide-y divide-gray-200'>
-                {band && band.Transactions ? band?.Transactions.map(review => {
+                {band && band.Transactions && band.Transactions.length > 0 ? band?.Transactions.map(review => {
                   return (
                     <li className='py-4'>
                       <div className='flex w-full'>
@@ -274,7 +274,7 @@ function Profile () {
                     </li>
                   )
                 }) : (
-                    <li className='py-4'>
+                    <li className='py-2'>
                       <div className='flex'>
                         <div>
                           <p className='mt-1'>
