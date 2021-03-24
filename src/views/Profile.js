@@ -28,10 +28,8 @@ function Profile () {
 
   useEffect(() => {
     setIsLoading(false)
-    setReviews(band && band.Transactions && band.Transactions.filter(transaction => transaction.rating !== 0 ));
+    setReviews(band && band.Transactions && band.Transactions.filter(transaction => transaction.rating !== null ));
   }, [band])
-
-  console.log(band.Transactions)
 
   useEffect(() => {
     if (accountType === 'band') {

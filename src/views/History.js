@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchUserTransaction } from '../store/actions'
+import { fetchUserTransaction, setStatusOrder } from '../store/actions'
 import ModalRating from '../components/modalRating'
 import ReactStars from 'react-stars'
 import { useHistory } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import config from '../config/toastify'
 
 function History () {
   const { transactions } = useSelector(state => state.userData)
@@ -17,12 +19,23 @@ function History () {
   function handleClick (e, transaction) {
     console.log(transaction)
     if (transaction.rating === null) {
-      e.preventDefault()
-      // console.log(transaction, '<<<handleClick')
-      setActiveRating(transaction.rating)
-      setActiveReview(transaction.review)
-      setActiveId(transaction.id)
-      setShowModal(true)
+      if (transaction.status === 'success') {
+        e.preventDefault()
+        // console.log(transaction, '<<<handleClick')
+        setActiveRating(transaction.rating)
+        setActiveReview(transaction.review)
+        setActiveId(transaction.id)
+        setShowModal(true)
+      } else {
+        e.preventDefault()
+        window.snap.pay(transaction.snapToken, {
+          onSuccess: function (result) {
+            dispatch(setStatusOrder(transaction.snapToken))
+            toast('Thanks for completing the transaction', config)
+            dispatch(fetchUserTransaction())
+          }
+        })
+      }
     } else {
       e.preventDefault()
       history.push(`/profile/${transaction.BandId}`)
@@ -144,9 +157,11 @@ function History () {
                             className='text-indigo-600 hover:text-indigo-900'
                             onClick={e => handleClick(e, transaction)}
                           >
-                            {transaction.rating === null
+                          {transaction.rating === null
+                            ? transaction.status === 'success'
                               ? 'Rate this band'
-                              : "You've rated this band"}
+                              : 'Complete the order to rate'
+                            : "You've rate this band"}
                           </a>
                         </td>
                       </tr>
