@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { register } from '../store/actions'
 import { useHistory } from 'react-router-dom'
 import { setRegisterStatus } from '../store/actions'
+import logo from '../bandly.png'
 
 function SignUp () {
   const dispatch = useDispatch()
@@ -43,13 +44,9 @@ function SignUp () {
     <div className='flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8'>
       <div className='max-w-md w-full space-y-8'>
         <div>
-          <img
-            className='mx-auto h-12 w-auto'
-            src='https://tailwindui.com/img/logos/workflow-mark-teal-200-cyan-400.svg'
-            alt='Workflow'
-          />
+          <img className='mx-auto h-12 w-auto' src={logo} alt='Workflow' />
           <h2 className='mt-6 text-center text-3xl font-extrabold text-gray-900'>
-            Join with us
+            Join us
           </h2>
           <p className='mt-2 text-center text-sm text-gray-600'>
             Or
@@ -58,7 +55,7 @@ function SignUp () {
               className='font-medium text-indigo-600 hover:text-indigo-500'
             >
               {' '}
-              signin if you already have an account.
+              Log in if you already have an account.
             </Link>
           </p>
         </div>
@@ -111,7 +108,7 @@ function SignUp () {
                 onChange={handleChange}
               >
                 <option selected disabled>
-                  I .....
+                  I want to...
                 </option>
                 <option value='band'>I want to perform</option>
                 <option value='client'>I want to hire performer</option>

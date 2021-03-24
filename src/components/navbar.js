@@ -12,6 +12,8 @@ import { fetchUser } from '../store/actions'
 import ModalPorto from './modalPorto'
 import ModalPortoLink from './modalPortoLink'
 
+import logo from '../bandly.png'
+
 function Navbar () {
   const loginStatus = useSelector(state => state.loginStatus.isLoggedIn)
   const { accountType } = useSelector(state => state.userData)
@@ -67,11 +69,7 @@ function Navbar () {
           <div className='flex items-center justify-between w-full md:w-auto'>
             <Link to='/'>
               <span className='sr-only'>Workflow</span>
-              <img
-                className='h-8 w-auto sm:h-10'
-                src='https://tailwindui.com/img/logos/workflow-mark-teal-200-cyan-400.svg'
-                alt=''
-              />
+              <img className='h-6 w-auto' src={logo} alt='logo' />
             </Link>
             <div className='-mr-2 flex items-center md:hidden'>
               <button

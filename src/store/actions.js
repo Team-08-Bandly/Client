@@ -154,3 +154,18 @@ export function setStatusOrder (payload) {
     }
   }
 }
+
+export function reviewRating (payload) {
+  const { rating, review, id } = payload
+  return async dispatch => {
+    try {
+      await axios().patch(`/transactions/${id}`, {
+        rating,
+        review
+      })
+      toast('Thanks for reviewing!', config)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+}
