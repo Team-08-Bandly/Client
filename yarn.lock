@@ -9740,6 +9740,11 @@
     "react-input-autosize" "^3.0.0"
     "react-transition-group" "^4.3.0"
 
+"react-stars@^2.2.5":
+  "integrity" "sha1-kRhSAY4VdKD5osHfpPC8mvBxuSE="
+  "resolved" "https://registry.npmjs.org/react-stars/-/react-stars-2.2.5.tgz"
+  "version" "2.2.5"
+
 "react-toastify@^7.0.3":
   "integrity" "sha512-cxZ5rfurC8LzcZQMTYc8RHIkQTs+BFur18Pzk6Loz6uS8OXUWm6nXVlH/wqglz4Z7UAE8xxcF5mRjfE13487uQ=="
   "resolved" "https://registry.npmjs.org/react-toastify/-/react-toastify-7.0.3.tgz"
