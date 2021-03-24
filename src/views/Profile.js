@@ -77,8 +77,9 @@ function Profile () {
               }
             ]
           })
-          axios().post('/chatRoom', { BandId: band.id, RoomId: newMessage.key })
-          history.push(`/chatroom/${newMessage.key}`)
+          axios().post('/chatRoom', { BandId: band.id, RoomId: newMessage.key }).then(() => {
+            history.push(`/chatroom/${newMessage.key}`)
+          })
         } else {
           history.push(`/chatroom/${data.RoomId}`)
         }
@@ -176,7 +177,7 @@ function Profile () {
           alt=''
         />
       </div>
-      <div className='flex flex-wrap md:flex-nowrap'>
+      <div className='flex flex-wrap md:flex-nowrap items-start'>
         <div className='flex items-start w-full md:w-1/3'>
           <div className='bg-white overflow-hidden shadow rounded-lg sticky top-4'>
             <div className='px-4 py-5 sm:p-6'>
@@ -275,19 +276,10 @@ function Profile () {
             </div>
           </div>
           <RenderPorto />
-          <div className='flex w-full'></div>
-          <div className='relative'>
-            <div
-              className='absolute inset-0 flex items-center'
-              aria-hidden='true'
-            >
-              <div className='w-full border-1 border-red-900'></div>
-            </div>
-            <div className='relative flex justify-center'>
-              <span className='px-3 bg-gray-50 text-lg font-medium text-gray-900'>
-                Review & Rating ( { ( reviews && reviews.length > 0 ) ? reviews.reduce((total,value) => total + value.rating, 0) / reviews.length : 0 } / 5 )
-              </span>
-            </div>
+          <div className='flex w-full my-4'>
+            <span className='px-3 bg-gray-50 text-lg font-medium text-gray-900'>
+              Review & Rating ( { ( reviews && reviews.length > 0 ) ? (reviews.reduce((total,value) => total + +value.rating, 0) / reviews.length).toFixed(2) : 0 } / 5 )
+            </span>
           </div>
           <div className='bg-white shadow rounded-lg mt-1 w-full'>
             <div className='px-4 py-4'>

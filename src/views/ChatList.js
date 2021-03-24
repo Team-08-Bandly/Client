@@ -26,7 +26,7 @@ function Chatlist() {
     },[roomId])
 
   return (
-    <div className="relative max-w-7xl px-4 mx-auto justify-between flex h-screen">
+    <div className="relative max-w-7xl px-4 mx-auto justify-between flex overflow-hidden" style={{ height: '85vh' }}>
       <div className="min-h-0 flex-1 flex overflow bg-gray-100 shadow rounded-lg ">
         <main className="min-w-0 flex-1 border-t border-gray-200 xl:flex">
           <Chat key={roomId} RoomId={roomId}/>
@@ -46,7 +46,7 @@ function Chatlist() {
                 <ul className="border-b border-gray-200 divide-y divide-gray-200">
                   {listChat.map(chat => {
                       return(
-                        <li onClick={ () => { setRoomId(chat.RoomId) } } className="relative bg-white py-5 px-6 hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-blue-600">
+                        <li onClick={ () => { setRoomId(chat.RoomId) } } className="cursor-pointer relative bg-white py-5 px-6 hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-blue-600">
                             <div className="flex justify-between space-x-3">
                             <div className="min-w-0 flex-1">
                                 <span className="block focus:outline-none">

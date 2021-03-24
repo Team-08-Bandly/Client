@@ -120,7 +120,7 @@ function Navbar () {
           {loginStatus ? (
             accountType === 'band' ? (
               <button
-                className='relative dropdown:block'
+                className='relative dropdown:block text-base font-medium text-gray-500'
                 onClick={() => setShowDropdown(!showDropdown)}
                 style={{ zIndex: 100 }}
                 role='navigation'
