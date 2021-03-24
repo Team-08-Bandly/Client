@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchUserTransaction } from '../store/actions'
 import ModalRating from '../components/modalRating'
+import ReactStars from 'react-stars'
+import { useHistory } from 'react-router-dom'
 
 function History () {
   const { transactions } = useSelector(state => state.userData)
@@ -10,14 +12,21 @@ function History () {
   const [activeRating, setActiveRating] = useState('')
   const [activeReview, setActiveReview] = useState('')
   const [activeId, setActiveId] = useState('')
+  const history = useHistory()
 
   function handleClick (e, transaction) {
-    e.preventDefault()
-    // console.log(transaction, '<<<handleClick')
-    setActiveRating(transaction.rating)
-    setActiveReview(transaction.review)
-    setActiveId(transaction.id)
-    setShowModal(true)
+    console.log(transaction)
+    if (transaction.rating === null) {
+      e.preventDefault()
+      // console.log(transaction, '<<<handleClick')
+      setActiveRating(transaction.rating)
+      setActiveReview(transaction.review)
+      setActiveId(transaction.id)
+      setShowModal(true)
+    } else {
+      e.preventDefault()
+      history.push(`/profile/${transaction.BandId}`)
+    }
   }
 
   useEffect(() => {
@@ -82,6 +91,12 @@ function History () {
                     >
                       Status
                     </th>
+                    <th
+                      scope='col'
+                      className='px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'
+                    >
+                      Rating
+                    </th>
                     <th scope='col' className='relative px-6 py-3'>
                       <span className='sr-only'>Edit</span>
                     </th>
@@ -90,7 +105,6 @@ function History () {
                 <tbody>
                   {transactions?.Transactions?.map(transaction => (
                     <>
-                      {console.log(transaction)}
                       <tr className='bg-white' key={transaction?.id}>
                         <td className='px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900'>
                           {transaction?.Band?.name}
@@ -115,13 +129,24 @@ function History () {
                         <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-500'>
                           {transaction?.status}
                         </td>
+                        <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-500'>
+                          <ReactStars
+                            count={5}
+                            size={24}
+                            color2={'#ffd700'}
+                            value={transaction?.rating}
+                            edit={false}
+                          />
+                        </td>
                         <td className='px-6 py-4 whitespace-nowrap text-right text-sm font-medium'>
                           <a
                             href='/rate'
                             className='text-indigo-600 hover:text-indigo-900'
                             onClick={e => handleClick(e, transaction)}
                           >
-                            Rate this band
+                            {transaction.rating === null
+                              ? 'Rate this band'
+                              : "You've rate this band"}
                           </a>
                         </td>
                       </tr>
