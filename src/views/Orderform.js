@@ -74,7 +74,7 @@ function Orderform () {
     <div className='flex container mx-auto justify-center items-center'>
       <div className='flex flex-col w-full lg:w-1/2 bg-white shadow rounded-lg px-4 py-4'>
         <div className='flex container mx-auto justify-center items-center'>
-          <div className='flex flex-col w-full lg:w-1/2 bg-white shadow rounded-lg px-4 py-4'>
+          <div className='flex flex-col w-full rounded-lg px-4 py-4'>
             <div>
               <h3 className='text-lg leading-6 font-medium text-gray-900'>
                 Appointment Form

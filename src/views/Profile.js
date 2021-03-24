@@ -6,8 +6,8 @@ import { fetchBand } from '../store/actions'
 import axios from '../config/axios'
 import { Firebase } from '../initFirebase'
 import Moment from 'moment'
-
 import { Link, useParams, useHistory } from 'react-router-dom'
+import ReactStars from 'react-stars'
 import Loader from '../components/loader'
 
 function Profile() {
@@ -29,18 +29,6 @@ function Profile() {
     setIsLoading(false)
     // console.log(band)
   }, [band])
-
-  const reviews = [
-    {
-      id: 1
-    },
-    {
-      id: 3
-    },
-    {
-      id: 2
-    }
-  ]
 
   useEffect(() => {
     if (accountType === 'band') {
@@ -286,41 +274,41 @@ function Profile() {
               </span>
             </div>
           </div>
-          <div className='bg-white shadow rounded-lg mt-4'>
+          <div className='bg-white shadow rounded-lg mt-1 w-full'>
             <div className='px-4 py-4'>
               <ul className='divide-y divide-gray-200'>
-                {reviews.map(review => {
+                {band && band.Transactions && band.Transactions.length > 0 ? band?.Transactions.map(review => {
                   return (
                     <li className='py-4'>
-                      <div className='flex'>
-                        <div className='mr-4 flex-shrink-0'>
-                          <svg
-                            className='h-16 w-16 border border-gray-300 bg-white text-gray-300'
-                            preserveAspectRatio='none'
-                            stroke='currentColor'
-                            fill='none'
-                            viewBox='0 0 200 200'
-                            aria-hidden='true'
-                          >
-                            <path
-                              vectorEffect='non-scaling-stroke'
-                              strokeWidth='1'
-                              d='M0 0l200 200M0 200L200 0'
-                            />
-                          </svg>
-                        </div>
+                      <div className='flex w-full'>
                         <div>
-                          <h4 className='text-lg font-bold'>Lorem ipsum</h4>
+                          <h4 className='text-lg font-bold'>
+                            <ReactStars
+                              count={5}
+                              size={24}
+                              value={review.rating}
+                              edit={false}
+                              color2='#ffd700' />
+                          </h4>
                           <p className='mt-1'>
-                            Repudiandae sint consequuntur vel. Amet ut nobis
-                            explicabo numquam expedita quia omnis voluptatem.
-                            Minus quidem ipsam quia iusto.
+                          {review.review}
                           </p>
                         </div>
                       </div>
                     </li>
                   )
-                })}
+                }) : (
+                    <li className='py-2'>
+                      <div className='flex'>
+                        <div>
+                          <p className='mt-1'>
+                            No Data Transactions
+                          </p>
+                        </div>
+                      </div>
+                    </li>
+                )
+              }
               </ul>
             </div>
           </div>
