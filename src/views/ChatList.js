@@ -17,7 +17,7 @@ function Chatlist() {
 
     useEffect(() => {
         axios().get('/chatRoom').then(({ data }) => {
-            setListChat(data.roomChat)
+            setListChat(data.roomChat.sort(function(a, b){ return +b.id - +a.id}))
         })
     },[]);
 
