@@ -91,22 +91,37 @@ function ModalRating (props) {
             <div>
               <div className='mt-3 text-center sm:mt-5'>
                 <div className='mt-2 flex px-2'>
-                  <div class='sm:col-span-12 w-full'>
-                    <div>
-                      <ReactStars
-                        count={5}
-                        onChange={ratingChanged}
-                        size={24}
-                        color2={'#ffd700'}
-                        value={formValue.rating}
-                      />
-                    </div>
-                    <div class=''>
-                      <textarea
-                        placeholder='Review'
-                        name='review'
-                        id='review'
-                        rows='10'
+                <div class='justify-self-center'>
+                <h3
+                  className='text-lg leading-6 mb-4 font-medium text-gray-900'
+                  id='modal-rating'
+                >
+                  Rating
+                </h3>
+                <div class='flex justify-center'>
+                  <ReactStars
+                    count={5}
+                    onChange={ratingChanged}
+                    size={24}
+                    color2={'#ffd700'}
+                    value={formValue.rating}
+                    class='inline-flex'
+                  />
+                </div>
+              </div>
+              <br />
+              <div class=''>
+                <h3
+                  className='text-lg leading-6 mb-4 font-medium text-gray-900'
+                  id='modal-headline'
+                >
+                  Review
+                </h3>
+                <textarea
+                  placeholder='Review'
+                  name='review'
+                  id='review'
+                  rows='5'
                         value={formValue.review}
                         onChange={reviewChanged}
                         class='py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md'
