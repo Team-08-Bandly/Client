@@ -137,7 +137,7 @@ function Profile () {
       <div className='flex w-full mb-4 rounded justify-center h-100'>
         <img
           src={band?.coverUrl}
-          className='object-cover rounded-lg h-100 w-full'
+          className='object-cover rounded-lg h-96 w-full'
           alt=''
         />
       </div>
