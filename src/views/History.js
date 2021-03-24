@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchUserTransaction } from '../store/actions'
+import { fetchUserTransaction, setStatusOrder } from '../store/actions'
 import ModalRating from '../components/modalRating'
 import ReactStars from 'react-stars'
 import { useHistory } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import config from '../config/toastify'
 
 function History () {
   const { transactions } = useSelector(state => state.userData)
@@ -17,12 +19,23 @@ function History () {
   function handleClick (e, transaction) {
     console.log(transaction)
     if (transaction.rating === null) {
-      e.preventDefault()
-      // console.log(transaction, '<<<handleClick')
-      setActiveRating(transaction.rating)
-      setActiveReview(transaction.review)
-      setActiveId(transaction.id)
-      setShowModal(true)
+      if (transaction.status === 'success') {
+        e.preventDefault()
+        // console.log(transaction, '<<<handleClick')
+        setActiveRating(transaction.rating)
+        setActiveReview(transaction.review)
+        setActiveId(transaction.id)
+        setShowModal(true)
+      } else {
+        e.preventDefault()
+        window.snap.pay(transaction.snapToken, {
+          onSuccess: function (result) {
+            dispatch(setStatusOrder(transaction.snapToken))
+            toast('Thanks for completing the transaction', config)
+            dispatch(fetchUserTransaction())
+          }
+        })
+      }
     } else {
       e.preventDefault()
       history.push(`/profile/${transaction.BandId}`)
@@ -42,7 +55,7 @@ function History () {
         closeModal={() => setShowModal(false)}
         transactionId={activeId}
       />
-      <div className='relative max-w-7xl mx-auto justify-between px-4 sm:px-6'>
+      <div className='relative max-w-8xl mx-auto justify-between px-4 sm:px-6 overflo'>
         <div>
           <h3 className='text-lg leading-6 font-medium text-gray-900'>
             Transaction History
@@ -105,6 +118,7 @@ function History () {
                 <tbody>
                   {transactions?.Transactions?.map(transaction => (
                     <>
+                      {console.log(transaction)}
                       <tr className='bg-white' key={transaction?.id}>
                         <td className='px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900'>
                           {transaction?.Band?.name}
@@ -145,7 +159,9 @@ function History () {
                             onClick={e => handleClick(e, transaction)}
                           >
                             {transaction.rating === null
-                              ? 'Rate this band'
+                              ? transaction.status === 'success'
+                                ? 'Rate this band'
+                                : 'Complete the order to rate'
                               : "You've rate this band"}
                           </a>
                         </td>
