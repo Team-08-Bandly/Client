@@ -10,8 +10,6 @@ function History () {
     dispatch(fetchUserTransaction())
   }, [dispatch])
 
-  console.log(transactions)
-
   return (
     <>
       <div className='relative max-w-7xl mx-auto justify-between px-4 sm:px-6'>

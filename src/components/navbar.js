@@ -14,7 +14,7 @@ import ModalPortoLink from './modalPortoLink'
 
 function Navbar () {
   const loginStatus = useSelector(state => state.loginStatus.isLoggedIn)
-  const { name, email, accountType } = useSelector(state => state.userData)
+  const { accountType } = useSelector(state => state.userData)
   const dispatch = useDispatch()
   const history = useHistory()
   const [showModal, setShowModal] = useState(false)
@@ -32,6 +32,10 @@ function Navbar () {
       dispatch(setAccountType(''))
     }
   }
+
+  useEffect(() => {
+    dispatch(fetchUser())
+  }, [dispatch])
 
   useEffect(() => {
     if (loginStatus) {
@@ -146,6 +150,15 @@ function Navbar () {
             ) : (
               ' '
             )
+          ) : (
+            ' '
+          )}
+          {accountType === 'band' ? (
+            <Link to='/myprofile'>
+              <span className='text-base font-medium text-gray-500 hover:text-gray-300'>
+                My Profile
+              </span>
+            </Link>
           ) : (
             ' '
           )}

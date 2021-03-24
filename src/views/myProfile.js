@@ -5,22 +5,22 @@ import { useSelector, useDispatch } from 'react-redux'
 import { fetchBand } from '../store/actions'
 import axios from '../config/axios'
 import ReactStars from 'react-stars'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import Loader from '../components/loader'
 
-function Profile () {
+function MyProfile () {
   const loginStatus = useSelector(state => state.loginStatus.isLoggedIn)
   const band = useSelector(state => state.bands.band)
   const { accountType } = useSelector(state => state.userData)
   const dispatch = useDispatch()
-  const { id } = useParams()
   const [isLoading, setIsLoading] = useState(true)
   const [showType, setShowType] = useState('video')
   const [userBandId, setUserBandId] = useState()
+  const history = useHistory()
 
-  useEffect(() => {
-    dispatch(fetchBand(id))
-  }, [dispatch, id])
+  // useEffect(() => {
+  //   dispatch(fetchBand(userBandId))
+  // }, [dispatch, userBandId])
 
   useEffect(() => {
     setIsLoading(false)
@@ -35,6 +35,9 @@ function Profile () {
           if (data.band) {
             const { id } = data.band
             setUserBandId(id)
+            dispatch(fetchBand(userBandId))
+          } else {
+            history.push('/profile')
           }
         })
         .catch(err => {
@@ -292,4 +295,4 @@ function Profile () {
   )
 }
 
-export default Profile
+export default MyProfile
