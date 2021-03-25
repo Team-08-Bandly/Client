@@ -179,7 +179,7 @@ function Navbar () {
             <span className='text-base font-medium text-gray-500 hover:text-gray-300'>
               {loginStatus
                 ? accountType === 'band'
-                  ? 'Profile'
+                  ? 'Edit Profile'
                   : 'Transaction History'
                 : 'Log in'}
             </span>
