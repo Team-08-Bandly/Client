@@ -13,6 +13,7 @@ function History () {
   const [activeReview, setActiveReview] = useState('')
   const [activeId, setActiveId] = useState('')
   const history = useHistory()
+  const [sortedTransactions, setSortedTransactions] = useState([])
 
   function handleClick (e, transaction) {
     console.log(transaction)
@@ -29,6 +30,17 @@ function History () {
     }
   }
 
+  function closeModal () {
+    setShowModal(false)
+    dispatch(fetchUserTransaction())
+  }
+
+  useEffect(() => {
+    const sort = transactions?.Transactions?.sort((a, b) => +a.id - +b.id)
+    setSortedTransactions(sort)
+    console.log(sortedTransactions)
+  }, [sortedTransactions, transactions.Transactions])
+
   useEffect(() => {
     dispatch(fetchUserTransaction())
   }, [dispatch])
@@ -39,7 +51,7 @@ function History () {
         show={showModal}
         rating={activeRating}
         review={activeReview}
-        closeModal={() => setShowModal(false)}
+        closeModal={closeModal}
         transactionId={activeId}
       />
       <div className='relative max-w-7xl mx-auto justify-between px-4 sm:px-6'>
@@ -103,7 +115,7 @@ function History () {
                   </tr>
                 </thead>
                 <tbody>
-                  {transactions?.Transactions?.map(transaction => (
+                  {sortedTransactions?.map(transaction => (
                     <>
                       <tr className='bg-white' key={transaction?.id}>
                         <td className='px-6 py-4 text-sm font-medium text-gray-900'>
