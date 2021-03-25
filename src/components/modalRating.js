@@ -1,6 +1,6 @@
 import ReactStars from 'react-stars'
 import { useState, useEffect } from 'react'
-import { reviewRating } from '../store/actions'
+import { reviewRating, fetchUserTransaction } from '../store/actions'
 import { useDispatch } from 'react-redux'
 
 function ModalRating (props) {
@@ -31,6 +31,7 @@ function ModalRating (props) {
   function submitReview () {
     dispatch(reviewRating({ ...formValue, id: props.transactionId }))
     props.closeModal()
+    dispatch(fetchUserTransaction())
   }
 
   useEffect(() => {
