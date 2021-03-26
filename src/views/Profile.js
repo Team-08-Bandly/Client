@@ -207,7 +207,7 @@ function Profile () {
                 / hour
               </p>
 
-              {userBandId !== band?.id ? (
+              {accountType !== 'band' ? (
                 <div>
                   <Link
                     to={loginStatus ? '/order/' + band?.id : '/login'}
